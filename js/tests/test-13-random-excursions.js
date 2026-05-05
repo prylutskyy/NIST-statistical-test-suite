@@ -70,7 +70,17 @@ function testRandomExcursions(bits) {
   var cyc = findCycleBoundaries(S, n);
   var J   = cyc.length - 1;
 
-  if (J < 500) return { pValue: null, note: 'Too few cycles (J=' + J + '). Use >= 10 000 bits.' };
+  // NIST STS official constraint: MAX(0.005 * sqrt(n), 500)
+  // For all practical n < 10^10 this reduces to simply J >= 500.
+  var constraint = Math.max(Math.floor(0.005 * Math.sqrt(n)), 500);
+  if (J < constraint) {
+    return {
+      pValue: null,
+      note: 'Too few cycles (J=' + J + ', need ≥' + constraint + '). ' +
+            'E[J] ≈ √(2n/π) — even 1 000 000 bits gives J≥500 only ~60% of the time. ' +
+            'NIST reference uses 1 000 000 bits per stream.'
+    };
+  }
 
   var results = {};
 

@@ -74,8 +74,14 @@ File dropped / selected
 | 10 | Serial | Unequal frequency of 3-bit patterns | 100 |
 | 11 | Approximate Entropy | m-bit vs (m+1)-bit pattern frequency difference | 100 |
 | 12 | Cumulative Sums | Deviation of partial-sum walk from zero | 100 |
-| 13 | Random Excursions | Visits to states ±1…±4 per cycle | ~10 000 |
-| 14 | Random Excursions Variant | Total visits to states ±1…±9 | ~10 000 |
+| 13 | Random Excursions | Visits to states ±1…±4 per cycle | no fixed minimum¹ |
+| 14 | Random Excursions Variant | Total visits to states ±1…±9 | no fixed minimum¹ |
+
+> ¹ Tests 13 & 14 use the condition J ≥ MAX(0.005·√n, 500), taken directly from the NIST STS C source.
+> J is the number of zero crossings of the partial-sum walk and follows the arc-sine distribution.
+> E[J] ≈ √(2n/π), so even n = 1 000 000 bits gives J ≥ 500 in only ~60% of random sequences.
+> N/A is a valid, expected outcome per NIST design — not an implementation error.
+> See [`INVESTIGATION_REPORT.md`](INVESTIGATION_REPORT.md) for the full mathematical analysis.
 
 ---
 
@@ -184,6 +190,35 @@ All p-values use either:
 - `erfc(x)` — complementary error function (Abramowitz & Stegun 7.1.26, accuracy < 1.5×10⁻⁷)
 - `Q(a, x)` — regularised upper incomplete gamma function (series expansion for x < a+1, Lentz continued fraction otherwise)
 
+### Random Excursions threshold — Tests 13 & 14
+
+These two tests operate on the partial-sum random walk S[i] of the input sequence. They require a minimum number of **zero crossings** J.
+
+**Official NIST constraint** (from `randomExcursions.c` in STS 2.1.2):
+```c
+constraint = MAX(0.005 * sqrt(n), 500);
+```
+For all practical n < 10¹⁰ this always equals 500, so the effective condition is **J ≥ 500**.
+
+**Distribution of J** follows the arc-sine law (Feller 1968), not a normal distribution:
+```
+E[J] ≈ √(2n/π)          Var[J] ≈ n·(π−2)/π²
+```
+Because σ[J] ≈ 0.65·√n is the same order as E[J], the distribution has extremely heavy tails.
+
+**Empirical probabilities** (500 Monte Carlo trials per n):
+
+| n | E[J] | P(J ≥ 500) |
+|---|---|---|
+| 10 000 | ~80 | < 1% |
+| 100 000 | ~271 | ~14% |
+| 1 000 000 | ~786 | ~62% |
+| 5 000 000 | ~1 800 | ~82% |
+
+There is no value of n that guarantees J ≥ 500 for every sequence. **N/A is a valid, expected result** per NIST design: when a sequence does not produce enough cycles, it is simply excluded from the analysis for these two tests. NIST's formal evaluation protocol (Section 4) runs ≥ 55 independent streams of 1 000 000 bits each and counts the fraction that meet the threshold.
+
+Full investigation documented in [`INVESTIGATION_REPORT.md`](INVESTIGATION_REPORT.md).
+
 ### Berlekamp–Massey algorithm (Test 9)
 
 The correct theorem (Massey 1969): for any binary sequence of length n, the LFSR complexity L satisfies **L ≤ n**. The expected value for a random sequence is **μ_L ≈ n/2 + (4+r)/18** where r = n mod 2, with standard deviation **σ ≈ √(11n/180)**.
@@ -194,10 +229,27 @@ Note: the naive claim "L ≤ ceil(n/2)" is **false** for individual sequences. F
 
 ## Known Limitations
 
-- **Tests 13 & 14** need ≥ 10 000 bits to accumulate J ≥ 500 excursion cycles (required for a valid result).
+- **Tests 13 & 14** require J ≥ 500 zero crossings, where J follows the arc-sine distribution with E[J] ≈ √(2n/π). There is no fixed minimum n: at n = 1 000 000 bits, P(J ≥ 500) ≈ 60%; at n = 10 000 bits, P(J ≥ 500) < 1%. NIST Appendix B uses 1 000 000-bit streams. See `INVESTIGATION_REPORT.md` for full analysis.
 - **Test 8** (Maurer Universal) needs ≥ 904 960 bits for the minimum L = 6 parameter level.
 - This tool analyses a **single sequence**. NIST SP 800-22 Section 4 recommends testing ≥ 55 sequences of 1 000 000 bits each for a formal generator evaluation.
 - The **Generate** buttons use `Math.random()` — not a cryptographically secure RNG. Use for demonstration only.
+
+---
+
+## Changelog
+
+### 2026-05-05
+- **Fixed:** Tests 13 & 14 — N/A message corrected from the misleading "Use >= 10 000 bits" to an accurate description referencing the arc-sine distribution, E[J] ≈ √(2n/π), and the NIST official constraint `MAX(0.005·√n, 500)`.
+- **Fixed:** Unit test `"L ≤ n/2 for random sequences (half-length bound)"` replaced with two mathematically correct tests: (a) `L ≤ n` (Massey 1969 hard bound) and (b) `|L − μ_L| < 5σ` (statistical proximity to expected value). The original claim `L ≤ ceil(n/2)` is false for individual sequences — e.g. [1,1,1,0] gives L = 3 > 2.
+- **Added:** `INVESTIGATION_REPORT.md` — full technical analysis of the J ≥ 500 threshold, arc-sine distribution of zero crossings, and empirical probability tables.
+- **Added:** `tests/pipeline.test.js` — 59 unit tests covering the file-loading pipeline (binary/Base64/plain-text decoding).
+- **Added:** File loading via drag-and-drop and file picker; supports binary files, Base64-encoded data, and plain 0/1 text — format detected automatically.
+- **Added:** Generate button for 1 000 000-bit sequences (needed for tests 13 & 14 to have a reasonable chance of producing J ≥ 500).
+- **Added:** Help page, About page with authorship notes.
+- **Added:** Dark/light mode toggle.
+- **Added:** Apple-style carousel UI — sidebar with per-test indicator dots and animated panel transitions.
+- **Fixed:** Test 8 (Maurer Universal) — off-by-one error in EV/VAR lookup table corrected. Arrays had 5 leading zeros instead of 6, causing all lookups to be shifted by one index (e.g. returning EL for L=7 when L=6 was requested). Discovered via unit tests.
+- **Fixed:** Firefox compatibility — `color-mix()` replaced with explicit rgba fallbacks; `backdrop-filter` wrapped in `@supports`; `inset: 0` replaced with explicit `top/right/bottom/left`; `will-change` hints added for animated elements.
 
 ---
 

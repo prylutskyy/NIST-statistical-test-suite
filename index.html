@@ -61,6 +61,7 @@
       <span class="gen-label">Generate random sequence:</span>
       <button class="btn-secondary" onclick="generateRandom(1000)">&#127922; 1 000 bits</button>
       <button class="btn-secondary" onclick="generateRandom(10000)">&#127922; 10 000 bits</button>
+      <button class="btn-secondary" onclick="generateRandom(1000000)">&#127922; 1 000 000 bits</button>
     </div>
 
     <div id="inputError" class="msg-error"></div>
@@ -107,7 +108,7 @@
       <li><strong>Paste</strong> — type or paste a string of <code>0</code>s and <code>1</code>s directly into the text area. Spaces, tabs, and newlines are ignored.</li>
       <li><strong>Generate</strong> — click <em>1 000 bits</em> or <em>10 000 bits</em> to fill the text area with a pseudo-random sequence for demonstration.</li>
     </ul>
-    <p>Minimum length: <strong>100 bits</strong>. NIST recommends at least <strong>1 000 bits</strong>. Tests 13 &amp; 14 require <strong>10 000+ bits</strong> in practice.</p>
+    <p>Minimum length: <strong>100 bits</strong>. NIST recommends at least <strong>1 000 bits</strong>. Tests 13 &amp; 14 require <strong>≈ 500 000+ bits</strong> in practice (J ≥ 500 zero crossings; expected J ≈ √(2n/π)).</p>
 
     <h3>Step 2 — Parameters (optional)</h3>
     <p>Three numeric inputs control specific tests. Default values follow NIST recommendations and work well for most inputs — see the <em>Parameters</em> section below for details.</p>
@@ -190,8 +191,8 @@
         <tr><td>10</td><td>Serial</td><td>Unequal frequency of all overlapping 3-bit patterns (circular extension). Reports two p-values.</td><td>100</td></tr>
         <tr><td>11</td><td>Approximate Entropy</td><td>Difference between m-bit and (m+1)-bit overlapping pattern frequencies. Low ApEn = high predictability.</td><td>100</td></tr>
         <tr><td>12</td><td>Cumulative Sums</td><td>Maximum deviation of the partial-sum random walk from zero — both forward and backward passes.</td><td>100</td></tr>
-        <tr><td>13</td><td>Random Excursions</td><td>Number of visits to each state (±1…±4) within excursion cycles of the partial-sum walk. Requires J ≥ 500 cycles.</td><td>~10 000</td></tr>
-        <tr><td>14</td><td>Random Excursions Variant</td><td>Total visit count to states ±1…±9 across the full walk, compared to the expected J crossings.</td><td>~10 000</td></tr>
+        <tr><td>13</td><td>Random Excursions</td><td>Number of visits to each state (±1…±4) within excursion cycles of the partial-sum walk. Requires J ≥ 500 cycles; expected J ≈ √(2n/π).</td><td>~500 000</td></tr>
+        <tr><td>14</td><td>Random Excursions Variant</td><td>Total visit count to states ±1…±9 across the full walk. Requires J ≥ 500 zero crossings; expected J ≈ √(2n/π).</td><td>~500 000</td></tr>
       </tbody>
     </table>
   </div>
@@ -284,7 +285,7 @@
   <div class="doc-section">
     <h2>⚠ Limitations</h2>
     <ul>
-      <li>Tests 13 &amp; 14 need ≥ 10 000 bits in practice to reach J ≥ 500 excursion cycles.</li>
+      <li>Tests 13 &amp; 14 need ≥ 500 000 bits in practice. The expected cycle count is J ≈ √(2n/π): for n = 10 000 this gives J ≈ 80; for n = 500 000 this gives J ≈ 564.</li>
       <li>Test 8 (Maurer) needs ≥ 904 960 bits for the minimum L=6 parameter level.</li>
       <li>NIST SP 800-22 Section 4 recommends testing ≥ 55 sequences of 1 000 000 bits each for a formal generator evaluation. This tool analyses one sequence at a time.</li>
       <li>The Generate buttons use <code>Math.random()</code> — not a cryptographically secure RNG. Use for demonstration only.</li>

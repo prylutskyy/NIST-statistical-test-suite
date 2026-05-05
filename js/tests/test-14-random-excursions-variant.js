@@ -32,7 +32,16 @@ function testRandomExcursionsVariant(bits) {
   var J = 0;
   for (var i = 1; i <= n + 1; i++) if (S[i] === 0) J++;
 
-  if (J < 500) return { pValue: null, note: 'Too few zero crossings (J=' + J + '). Use >= 10 000 bits.' };
+  // NIST STS official constraint: MAX(0.005 * sqrt(n), 500)
+  var constraint = Math.max(Math.floor(0.005 * Math.sqrt(n)), 500);
+  if (J < constraint) {
+    return {
+      pValue: null,
+      note: 'Too few zero crossings (J=' + J + ', need ≥' + constraint + '). ' +
+            'E[J] ≈ √(2n/π) — even 1 000 000 bits gives J≥500 only ~60% of the time. ' +
+            'NIST reference uses 1 000 000 bits per stream.'
+    };
+  }
 
   var results = {};
 
