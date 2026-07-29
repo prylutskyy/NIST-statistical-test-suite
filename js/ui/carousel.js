@@ -536,5 +536,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
+  // Clear input explicitly so browser doesn't restore random bits on reload
+  var binInput = document.getElementById('binInput');
+  if (binInput) {
+    binInput.value = '';
+  }
+
   buildCarousel();
 });
