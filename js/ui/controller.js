@@ -48,6 +48,11 @@ async function runAll() {
   var raw    = document.getElementById('binInput').value.replace(/\s/g, '');
   var errEl  = document.getElementById('inputError');
   var infoEl = document.getElementById('inputInfo');
+  
+  var extractedFilename = infoEl.textContent.includes('"') 
+      ? infoEl.textContent.split('"')[1] 
+      : "Manual / Generated Input";
+      
   errEl.textContent  = '';
   infoEl.textContent = '';
 
@@ -74,9 +79,7 @@ async function runAll() {
 
   window.reportData = {
     metadata: {
-      filename: document.getElementById('inputInfo').textContent.includes('"') 
-                  ? document.getElementById('inputInfo').textContent.split('"')[1] 
-                  : "Manual / Generated Input",
+      filename: extractedFilename,
       length: raw.length,
       sha256: hashHex,
       snippet: raw.length > 64 
