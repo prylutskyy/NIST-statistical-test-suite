@@ -102,13 +102,30 @@
 
 <!-- ════════════════════════════════ HELP ════════════════════════════════════ -->
 <div id="page-help" class="page">
-<div class="doc-page">
+  <div class="doc-layout">
+    
+    <!-- Table of Contents Sidebar -->
+    <aside class="doc-sidebar">
+      <nav class="doc-toc">
+        <h4>Contents</h4>
+        <ul>
+          <li><a href="#help-quick-start">▶ Quick Start</a></li>
+          <li><a href="#help-formats">📂 File Formats</a></li>
+          <li><a href="#help-params">⚙ Parameters</a></li>
+          <li><a href="#help-tests">📊 All 14 Tests</a></li>
+          <li><a href="#help-results">🔍 Reading Results</a></li>
+        </ul>
+      </nav>
+    </aside>
 
-  <!-- Quick start -->
-  <div class="doc-section">
+    <div class="doc-page glass-panel">
+
+      <!-- Quick start -->
+      <div class="doc-section" id="help-quick-start">
     <h2>▶ Quick Start</h2>
     <p>This tool runs all 14 statistical tests defined in <strong>NIST SP 800-22 Rev 1a</strong> on a binary sequence. Each test produces a <em>p-value</em>. A p-value below <code>α = 0.01</code> indicates evidence of <strong>non-randomness</strong>.</p>
-    <div class="highlight-box">
+    <div class="highlight-box callout-tip">
+      <div class="callout-icon">💡</div>
       <p><strong>Three steps:</strong> ① Load a sequence (file, paste, or generate) → ② Adjust parameters if needed → ③ Click <em>Run All Tests</em></p>
     </div>
 
@@ -129,7 +146,7 @@
   </div>
 
   <!-- File formats -->
-  <div class="doc-section">
+  <div class="doc-section" id="help-formats">
     <h2>📂 Supported File Formats</h2>
     <p>Any file can be loaded. The pipeline detects the correct decoding mode in this order:</p>
     <table class="param-table">
@@ -157,13 +174,14 @@
         </tr>
       </tbody>
     </table>
-    <div class="highlight-box">
+    <div class="highlight-box callout-info">
+      <div class="callout-icon">ℹ️</div>
       <p><strong>Byte-to-bit convention (MSB first):</strong> byte <code>0xAB</code> = 10101011₂ → bit string <code>10101011</code>. This matches the NIST SP 800-22 convention used in all 14 tests.</p>
     </div>
   </div>
 
   <!-- Parameters -->
-  <div class="doc-section">
+  <div class="doc-section" id="help-params">
     <h2>⚙ Parameters</h2>
     <table class="param-table">
       <thead><tr><th>Parameter</th><th>Default</th><th>Range</th><th>Description</th></tr></thead>
@@ -185,7 +203,7 @@
   </div>
 
   <!-- All 14 tests -->
-  <div class="doc-section">
+  <div class="doc-section" id="help-tests">
     <h2>📊 All 14 Tests at a Glance</h2>
     <table class="test-table">
       <thead><tr><th>#</th><th>Name</th><th>What it detects</th><th>Min bits</th></tr></thead>
@@ -209,7 +227,7 @@
   </div>
 
   <!-- Reading results -->
-  <div class="doc-section">
+  <div class="doc-section" id="help-results">
     <h2>🔍 Reading Results</h2>
 
     <h3>Status badges</h3>
@@ -221,7 +239,8 @@
     <p>Test 10 (Serial) reports two p-values. Tests 13 and 14 report one p-value per state (±1…±4 and ±1…±9 respectively). The overall PASS/FAIL badge for these tests uses the <em>minimum</em> p-value across all states — the most conservative approach.</p>
 
     <h3>How conclusive is a failure?</h3>
-    <div class="highlight-box">
+    <div class="highlight-box callout-warn">
+      <div class="callout-icon">⚠️</div>
       <p>For any truly random sequence, approximately <strong>1 in 100 tests</strong> will fail at α = 0.01 purely by chance. A single isolated failure is not conclusive. Consistent failures across multiple tests — especially Tests 1, 2, or 3 — or a p-value extremely close to 0 carry significantly more weight.</p>
     </div>
 
@@ -232,7 +251,8 @@
     <p>NIST SP 800-22 Section 4 recommends testing at least <strong>55 sequences of 1 000 000 bits each</strong> for a formal generator evaluation. This tool analyses a single sequence at a time, which is sufficient for a quick check but not for a rigorous certification.</p>
   </div>
 
-</div>
+    </div>
+  </div>
 </div><!-- /page-help -->
 
 
