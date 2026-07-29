@@ -1130,6 +1130,11 @@ svg.icon {
 
 /* ── Mobile Optimizations (Help & About) ────────────────────────────────────── */
 @media (max-width: 768px) {
+  /* Topbar responsive */
+  .topbar { padding: 0 16px; gap: 8px; }
+  .topbar-brand { font-size: 1.1rem; margin: 0; }
+  .topbar-brand span { display: none; }
+
   /* Layout paddings */
   .doc-layout { padding: 16px; gap: 16px; }
   .about-layout { padding: 24px 16px 40px; }
