@@ -192,8 +192,8 @@ function generatePdfReport() {
           body: [
             [{ text: 'Source File', bold: true }, meta.filename],
             [{ text: 'Length', bold: true }, meta.length + ' bits'],
-            [{ text: 'SHA-256 Hash', bold: true }, { text: meta.sha256, fontSize: 9, font: 'Courier' }],
-            [{ text: 'Snippet (64b)', bold: true }, { text: meta.snippet, fontSize: 9, font: 'Courier' }]
+            [{ text: 'SHA-256 Hash', bold: true }, { text: meta.sha256, fontSize: 9 }],
+            [{ text: 'Snippet (64b)', bold: true }, { text: meta.snippet, fontSize: 9 }]
           ]
         }
       },
