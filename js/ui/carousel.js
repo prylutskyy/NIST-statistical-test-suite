@@ -143,6 +143,29 @@ function navigateTo(idx) {
 function applyResults(results, params) {
   _results = results;
 
+  if (window.reportData) {
+    window.reportData.tests = [];
+    window.reportData.params = params;
+    for (var i = 0; i < TEST_META.length; i++) {
+      var r = results[i];
+      var status = 'N/A';
+      var pv = null;
+      if (r && r.pValue !== null && r.pValue !== undefined) {
+        pv = r.pValue;
+        status = pv >= 0.01 ? 'PASS' : 'FAIL';
+      }
+      window.reportData.tests.push({
+        id: TEST_META[i].id,
+        name: TEST_META[i].name,
+        shortName: TEST_META[i].shortName,
+        status: status,
+        pValue: pv,
+        rawResult: r,
+        statsHtml: _buildStats(i, r, params) // Useful to extract parameters later if needed
+      });
+    }
+  }
+
   // Destroy existing charts to avoid memory leaks
   Object.keys(_charts).forEach(function(k) {
     if (_charts[k]) { _charts[k].destroy(); delete _charts[k]; }

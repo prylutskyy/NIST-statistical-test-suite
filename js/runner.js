@@ -92,6 +92,12 @@ function renderSummary(totalBits, results) {
   var failed = withPv.filter(function(r){ return r.pValue <  0.01; }).length;
   var na     = results.filter(function(r){ return !r || r.pValue === null || r.pValue === undefined; }).length;
 
+  if (window.reportData) {
+    window.reportData.passCount = passed;
+    window.reportData.failCount = failed;
+    window.reportData.naCount = na;
+  }
+
   var el = document.getElementById('summary');
   el.innerHTML =
     '<span class="sum-pill sum-pass"><span class="dot"></span>PASS: ' + passed + '</span>' +

@@ -44,7 +44,7 @@ function validateInput(raw) {
 
 /* ── Run button ──────────────────────────────────────────────────────────────── */
 
-function runAll() {
+async function runAll() {
   var raw    = document.getElementById('binInput').value.replace(/\s/g, '');
   var errEl  = document.getElementById('inputError');
   var infoEl = document.getElementById('inputInfo');
@@ -58,6 +58,39 @@ function runAll() {
   var params = readParams();
 
   infoEl.textContent = 'Analysing ' + bits.length + ' bits…';
+  
+  // Prepare global report data
+  var hashHex = "N/A";
+  try {
+    var byteLen = Math.ceil(raw.length / 8);
+    var bytes = new Uint8Array(byteLen);
+    for(var i=0; i<raw.length; i++) {
+      if(raw[i] === '1') bytes[Math.floor(i/8)] |= (1 << (7 - (i%8)));
+    }
+    var hashBuffer = await crypto.subtle.digest('SHA-256', bytes);
+    var hashArray = Array.from(new Uint8Array(hashBuffer));
+    hashHex = hashArray.map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
+  } catch(e) {
+    console.error("SHA-256 failed", e);
+  }
+
+  window.reportData = {
+    metadata: {
+      filename: document.getElementById('inputInfo').textContent.includes('"') 
+                  ? document.getElementById('inputInfo').textContent.split('"')[1] 
+                  : "Manual / Generated Input",
+      length: raw.length,
+      sha256: hashHex,
+      snippet: raw.length > 64 
+                ? raw.substring(0, 32) + " ... " + raw.substring(raw.length - 32)
+                : raw,
+      date: new Date().toISOString()
+    },
+    tests: [],
+    passCount: 0,
+    failCount: 0,
+    naCount: 0
+  };
 
   runAllTests(bits, params);
 }
