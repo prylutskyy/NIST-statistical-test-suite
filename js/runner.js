@@ -33,26 +33,43 @@ function runAllTests(bits, params) {
   if (summary) summary.innerHTML = '<span class="sum-pill sum-na">Обробка...</span>';
   if (summary) summary.classList.add('visible');
   if (viewport) {
-    viewport.innerHTML = '<div style="display:flex; height:100%; align-items:center; justify-content:center; color:var(--text2); font-size:1.1rem; animation: pulse-text 1.5s infinite alternate ease-in-out;">Аналіз ' + bits.length + ' бітів. Зачекайте...</div>';
+    viewport.innerHTML = '<div style="display:flex; flex-direction:column; width:100%; height:100%; align-items:center; justify-content:center; padding: 0 40px;">' +
+        '<div style="font-size:1.1rem; color:var(--text); margin-bottom:20px; font-weight:500;">Аналіз ' + bits.length + ' бітів...</div>' +
+        '<div style="width: 100%; max-width: 400px; height: 8px; background: var(--bg4); border-radius: 8px; overflow: hidden; box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);">' +
+          '<div id="testProgress" style="width: 0%; height: 100%; background: linear-gradient(90deg, var(--accent), #bf5af2); transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);"></div>' +
+        '</div>' +
+        '<div id="testName" style="margin-top:16px; font-size:0.8rem; color:var(--text3); font-family:var(--font-mono); text-transform:uppercase; letter-spacing:0.05em; animation: pulse-text 1.5s infinite alternate ease-in-out;">Ініціалізація...</div>' +
+      '</div>';
   }
 
   var worker = new Worker('js/worker.js');
   worker.onmessage = function(e) {
     var data = e.data;
-    _lastParams = data.params;
     
-    // Відновлюємо DOM-елементи каруселі, які ми стерли для показу лоадера
-    if (typeof buildCarousel === 'function') {
-      buildCarousel();
+    if (data.type === 'progress') {
+      var pct = Math.round((data.testIndex / data.total) * 100);
+      var progressEl = document.getElementById('testProgress');
+      var nameEl = document.getElementById('testName');
+      if (progressEl) progressEl.style.width = pct + '%';
+      if (nameEl) nameEl.textContent = 'Виконується Тест ' + (data.testIndex + 1) + ' з ' + data.total + '...';
+      return;
     }
     
-    applyResults(data.results, data.params);
-    renderSummary(data.bitsLength, data.results);
-    
-    var infoEl = document.getElementById('inputInfo');
-    if (infoEl) infoEl.textContent = data.bitsLength + ' bits analysed.';
-    
-    worker.terminate();
+    if (data.type === 'done') {
+      _lastParams = data.params;
+      
+      if (typeof buildCarousel === 'function') {
+        buildCarousel();
+      }
+      
+      applyResults(data.results, data.params);
+      renderSummary(data.bitsLength, data.results);
+      
+      var infoEl = document.getElementById('inputInfo');
+      if (infoEl) infoEl.textContent = data.bitsLength + ' bits analysed.';
+      
+      worker.terminate();
+    }
   };
   
   worker.onerror = function(err) {

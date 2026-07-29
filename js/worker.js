@@ -39,10 +39,15 @@ self.onmessage = function(e) {
   var bits = e.data.bits;
   var params = e.data.params;
   var results = [];
+  var total = TESTS_WORKER.length;
 
-  for (var i = 0; i < TESTS_WORKER.length; i++) {
+  for (var i = 0; i < total; i++) {
     var t = TESTS_WORKER[i];
     var args = [bits].concat(t.extraArgs ? t.extraArgs(params) : []);
+    
+    // Повідомляємо UI про старт тесту
+    self.postMessage({ type: 'progress', testIndex: i, total: total });
+    
     try {
       var r = t.run.apply(null, args);
       results.push(r);
@@ -52,5 +57,5 @@ self.onmessage = function(e) {
     }
   }
 
-  self.postMessage({ results: results, params: params, bitsLength: bits.length });
+  self.postMessage({ type: 'done', results: results, params: params, bitsLength: bits.length });
 };

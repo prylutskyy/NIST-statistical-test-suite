@@ -59,7 +59,8 @@ function buildCarousel() {
 
       // ── Sidebar button ──────────────────────────────────────────────────
       var btn = document.createElement('button');
-      btn.className = 'test-btn' + (idx === 0 ? ' active' : '');
+      btn.className = 'test-btn stagger-item' + (idx === 0 ? ' active' : '');
+      btn.style.animationDelay = (idx * 0.03) + 's';
       btn.id        = 'tbtn-' + idx;
       btn.innerHTML =
         '<div class="test-btn-header">' +
