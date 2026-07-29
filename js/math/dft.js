@@ -71,9 +71,9 @@ function computeDFTMagnitude(X, n) {
   
   const mag = new Float64Array(Math.floor(n / 2));
   for (let i = 0; i < mag.length; i++) {
-    // cOut must be normalized by m because fft.js inverse doesn't divide by m
-    const outR = cOut[i * 2] / m;
-    const outI = cOut[i * 2 + 1] / m;
+    // cOut is already normalized by fft.js inverseTransform
+    const outR = cOut[i * 2];
+    const outI = cOut[i * 2 + 1];
     
     const angle = -Math.PI * i * i / n;
     const cosA = Math.cos(angle);

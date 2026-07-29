@@ -424,7 +424,31 @@ describe('Test 5 — Binary Matrix Rank', function() {
 //  BLOCK 7 — Test 6: Non-Overlapping Template
 // ═══════════════════════════════════════════════════════════════════════════════
 
-describe('Test 6 — Non-Overlapping Template', function() {
+describe('Test 6 — Discrete Fourier Transform', function() {
+  it('Returns null when sequence too short', function() {
+    var r = ctx.testDiscreteFourierTransform([1, 0, 1]);
+    expect(r.pValue).toBe(null);
+  });
+
+  it('Calculates p-value correctly for a periodic sequence (should fail)', function() {
+    // A highly periodic sequence (e.g. 101010...) should have distinct peaks
+    var pattern = [1, 0, 1, 0, 1, 0, 1, 0];
+    var bits = repeatPattern(pattern, 1024);
+    var r = ctx.testDiscreteFourierTransform(bits);
+    // Since it's perfectly periodic, DFT peaks will be massive -> p-value near 0
+    expect(r.pValue).toBeLessThan(0.01);
+  });
+
+  it('Calculates p-value correctly for random sequence (should pass)', function() {
+    var r = ctx.testDiscreteFourierTransform(CRYPTO_10K);
+    expect(r.pValue).toBeGreaterThanOrEqual(0.01);
+    expect(r.stats).toBeDefined();
+    expect(r.stats.N1).toBeGreaterThanOrEqual(0);
+    expect(r.stats.N0).toBeGreaterThanOrEqual(0);
+  });
+});
+
+describe('Test 7 — Non-Overlapping Template', function() {
 
   it('Returns null when sequence too short', function() {
     var r = ctx.testNonOverlapping([1, 0, 1], 9);
@@ -472,7 +496,7 @@ describe('Test 6 — Non-Overlapping Template', function() {
 //  BLOCK 8 — Test 7: Overlapping Template
 // ═══════════════════════════════════════════════════════════════════════════════
 
-describe('Test 7 — Overlapping Template', function() {
+describe('Test 8 — Overlapping Template', function() {
 
   it('Returns null for n < 1032', function() {
     var r = ctx.testOverlapping(new Array(500).fill(1), 9);
@@ -525,7 +549,7 @@ describe('Test 7 — Overlapping Template', function() {
 //  BLOCK 9 — Test 8: Maurer's Universal Statistical Test
 // ═══════════════════════════════════════════════════════════════════════════════
 
-describe('Test 8 — Maurer Universal Statistical', function() {
+describe('Test 9 — Maurer Universal Statistical', function() {
 
   it('Returns null when sequence too short for minimum blocks', function() {
     // L=6, Q=640: need (640+1)*6 = 3846 bits minimum
@@ -635,7 +659,7 @@ describe('Berlekamp-Massey algorithm', function() {
 //  BLOCK 11 — Test 9: Linear Complexity
 // ═══════════════════════════════════════════════════════════════════════════════
 
-describe('Test 9 — Linear Complexity', function() {
+describe('Test 10 — Linear Complexity', function() {
 
   it('Returns null when n < M', function() {
     var r = ctx.testLinearComplexity([1, 0, 1], 500);
@@ -685,7 +709,7 @@ describe('Test 9 — Linear Complexity', function() {
 //  BLOCK 12 — Test 10: Serial
 // ═══════════════════════════════════════════════════════════════════════════════
 
-describe('Test 10 — Serial', function() {
+describe('Test 11 — Serial', function() {
 
   it('Returns two p-values, both ∈ [0, 1]', function() {
     var r = ctx.testSerial(NIST_100);
@@ -733,7 +757,7 @@ describe('Test 10 — Serial', function() {
 //  BLOCK 13 — Test 11: Approximate Entropy
 // ═══════════════════════════════════════════════════════════════════════════════
 
-describe('Test 11 — Approximate Entropy', function() {
+describe('Test 12 — Approximate Entropy', function() {
 
   it('NIST Appendix B reference (100 bits): p-value ≈ 0.235301', function() {
     var r = ctx.testApproxEntropy(NIST_100);
@@ -781,7 +805,7 @@ describe('Test 11 — Approximate Entropy', function() {
 //  BLOCK 14 — Test 12: Cumulative Sums
 // ═══════════════════════════════════════════════════════════════════════════════
 
-describe('Test 12 — Cumulative Sums', function() {
+describe('Test 13 — Cumulative Sums', function() {
 
   it('NIST Appendix B: pv_fwd ≈ 0.219194', function() {
     var r = ctx.testCusum(NIST_100);
@@ -834,7 +858,7 @@ describe('Test 12 — Cumulative Sums', function() {
 //  BLOCK 15 — Test 13: Random Excursions
 // ═══════════════════════════════════════════════════════════════════════════════
 
-describe('Test 13 — Random Excursions', function() {
+describe('Test 14 — Random Excursions', function() {
 
   it('Returns null when J < 500 (short sequence)', function() {
     var r = ctx.testRandomExcursions(new Array(1000).fill(1).concat(new Array(1000).fill(0)));
@@ -897,7 +921,7 @@ describe('Test 13 — Random Excursions', function() {
 //  BLOCK 16 — Test 14: Random Excursions Variant
 // ═══════════════════════════════════════════════════════════════════════════════
 
-describe('Test 14 — Random Excursions Variant', function() {
+describe('Test 15 — Random Excursions Variant', function() {
 
   it('Returns null when J < 500', function() {
     var r = ctx.testRandomExcursionsVariant(new Array(1000).fill(0));
