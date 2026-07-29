@@ -194,11 +194,12 @@ function generatePdfReport() {
       {
         style: 'tableExample',
         table: {
-          widths: [120, '*'],
+          widths: [130, '*'],
           body: [
             [{ text: 'Source File', bold: true }, meta.filename],
             [{ text: 'Length', bold: true }, meta.length + ' bits'],
-            [{ text: 'SHA-256 Hash', bold: true }, { text: meta.sha256, fontSize: 9 }],
+            [{ text: 'Original File SHA-256', bold: true }, { text: meta.originalSha256, fontSize: 9 }],
+            [{ text: 'Analyzed Sequence SHA-256', bold: true }, { text: meta.sequenceSha256, fontSize: 9 }],
             [{ text: 'Snippet (64b)', bold: true }, { text: meta.snippet, fontSize: 9 }]
           ]
         }

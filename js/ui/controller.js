@@ -81,7 +81,8 @@ async function runAll() {
     metadata: {
       filename: extractedFilename,
       length: raw.length,
-      sha256: hashHex,
+      originalSha256: window.currentOriginalFileHash || "N/A (Manual/Generated)",
+      sequenceSha256: hashHex,
       snippet: raw.length > 64 
                 ? raw.substring(0, 32) + " ... " + raw.substring(raw.length - 32)
                 : raw,
@@ -99,6 +100,7 @@ async function runAll() {
 /* ── Random generator ────────────────────────────────────────────────────────── */
 
 function generateRandom(len) {
+  window.currentOriginalFileHash = null; // Clear file hash since this is generated
   var bits = [];
   for (var i = 0; i < len; i++) bits.push(Math.random() < 0.5 ? 1 : 0);
   document.getElementById('binInput').value         = bits.join('');
@@ -181,8 +183,19 @@ function isBinaryExt(filename) {
  * Process a File object: detect format, decode to bit-string, load into UI.
  * @param {File} file
  */
-function _readFile(file) {
+async function _readFile(file) {
   if (!file) return;
+
+  // Compute original file hash immediately
+  window.currentOriginalFileHash = "N/A";
+  try {
+    var arrayBuffer = await file.arrayBuffer();
+    var hashBuf = await crypto.subtle.digest('SHA-256', arrayBuffer);
+    var hashArr = Array.from(new Uint8Array(hashBuf));
+    window.currentOriginalFileHash = hashArr.map(function(b){ return b.toString(16).padStart(2, '0'); }).join('');
+  } catch (e) {
+    console.error("Could not hash original file", e);
+  }
 
   var errEl  = document.getElementById('inputError');
   var infoEl = document.getElementById('inputInfo');
