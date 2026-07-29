@@ -146,7 +146,13 @@ function _getTestParamsForPdf(id, r, params) {
     case 3: p.push(['Total runs Vn', r.Vn || 'N/A'], ['pi (1s ratio)', fmt(r.pi)], ['n', r.n || 'N/A']); break;
     case 4: p.push(['chi²', fmt(r.chi2)], ['Blocks N', r.N || 'N/A'], ['Block M', r.M || 'N/A']); break;
     case 5: p.push(['chi²', fmt(r.chi2)], ['Matrices N', r.N || 'N/A']); break;
-    case 6: p.push(['N0', r.stats ? r.stats.N0 : 'N/A'], ['N1', r.stats ? r.stats.N1 : 'N/A']); break;
+    case 6:
+      if (r.stats) {
+        Object.keys(r.stats).forEach(function(k) {
+          p.push([k, r.stats[k]]);
+        });
+      }
+      break;
     case 7: p.push(['chi²', fmt(r.chi2)], ['Blocks N', r.N || 'N/A'], ['Template m', r.m || 'N/A']); break;
     case 8: p.push(['chi²', fmt(r.chi2)], ['Blocks N', r.N || 'N/A']); break;
     case 9: p.push(['f_n', fmt(r.fn)], ['E[f_n]', fmt(r.EL)], ['L', r.L || 'N/A']); break;
