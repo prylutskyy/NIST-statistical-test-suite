@@ -11,6 +11,7 @@ var TESTS = [
   { run: testRuns,                     render: null },
   { run: testLongestRun,               render: null },
   { run: testMatrixRank,               render: null },
+  { run: testDiscreteFourierTransform, render: null },
   { run: testNonOverlapping,           render: null, extraArgs: function(p){ return [p.m]; } },
   { run: testOverlapping,              render: null, extraArgs: function(p){ return [p.m]; } },
   { run: testMaurer,                   render: null },

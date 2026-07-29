@@ -21,15 +21,16 @@ var TEST_META = [
   { id:3,  name: 'Runs',                 shortName: 'Runs',          desc: 'Number and length of uninterrupted runs of identical bits.' },
   { id:4,  name: 'Longest Run',          shortName: 'Longest Run',   desc: 'Longest consecutive run of 1s in each M-bit block.' },
   { id:5,  name: 'Matrix Rank',          shortName: 'Rank',          desc: 'GF(2) rank of 32×32 binary matrices from sub-sequences.' },
-  { id:6,  name: 'Non-Overlapping',      shortName: 'Non-Overlap.',  desc: 'Occurrences of the aperiodic m-bit template (Template m).' },
-  { id:7,  name: 'Overlapping',          shortName: 'Overlapping',   desc: 'Overlapping occurrences of the all-ones m-bit template.' },
-  { id:8,  name: "Maurer's Universal",   shortName: 'Maurer',        desc: 'Compressibility of the sequence — predictable sequences compress.' },
-  { id:9,  name: 'Linear Complexity',    shortName: 'LFSR',          desc: 'Berlekamp–Massey LFSR length per block (LC block parameter).' },
-  { id:10, name: 'Serial',               shortName: 'Serial',        desc: 'Frequency of all overlapping 3-bit patterns (two p-values).' },
-  { id:11, name: 'Approx. Entropy',      shortName: 'ApEn',          desc: 'Difference between m-bit and (m+1)-bit pattern frequencies.' },
-  { id:12, name: 'Cumulative Sums',      shortName: 'CuSum',         desc: 'Maximum deviation of the partial-sum walk from zero.' },
-  { id:13, name: 'Random Excursions',    shortName: 'Excursions',    desc: 'Visits to states ±1…±4 in each cycle of the partial-sum walk.' },
-  { id:14, name: 'Excursions Variant',   shortName: 'Exc. Variant',  desc: 'Total visits to states ±1…±9 across the full walk.' }
+  { id:6,  name: 'Discrete Fourier Transform', shortName: 'Spectral', desc: 'Peak heights in the DFT spectrum to detect periodicity.' },
+  { id:7,  name: 'Non-Overlapping',      shortName: 'Non-Overlap.',  desc: 'Occurrences of the aperiodic m-bit template (Template m).' },
+  { id:8,  name: 'Overlapping',          shortName: 'Overlapping',   desc: 'Overlapping occurrences of the all-ones m-bit template.' },
+  { id:9,  name: "Maurer's Universal",   shortName: 'Maurer',        desc: 'Compressibility of the sequence — predictable sequences compress.' },
+  { id:10, name: 'Linear Complexity',    shortName: 'LFSR',          desc: 'Berlekamp–Massey LFSR length per block (LC block parameter).' },
+  { id:11, name: 'Serial',               shortName: 'Serial',        desc: 'Frequency of all overlapping 3-bit patterns (two p-values).' },
+  { id:12, name: 'Approx. Entropy',      shortName: 'ApEn',          desc: 'Difference between m-bit and (m+1)-bit pattern frequencies.' },
+  { id:13, name: 'Cumulative Sums',      shortName: 'CuSum',         desc: 'Maximum deviation of the partial-sum walk from zero.' },
+  { id:14, name: 'Random Excursions',    shortName: 'Excursions',    desc: 'Visits to states ±1…±4 in each cycle of the partial-sum walk.' },
+  { id:15, name: 'Excursions Variant',   shortName: 'Exc. Variant',  desc: 'Total visits to states ±1…±9 across the full walk.' }
 ];
 
 // ── State ─────────────────────────────────────────────────────────────────────
@@ -246,19 +247,24 @@ function _buildStats(idx, r, params) {
       s += _row('Rank ≤ 30', r.rest);
       break;
     case 6:
+      if (r.stats) {
+        Object.keys(r.stats).forEach(function(k) { s += _row(k, r.stats[k]); });
+      }
+      break;
+    case 7:
       s += _row('chi²', r.chi2.toFixed(6));
       s += _row('μ', r.mu.toFixed(4));
       s += _row('σ²', r.sigma2.toFixed(4));
       s += _row('Blocks N', r.N);
       s += _row('Template m', r.m);
       break;
-    case 7:
+    case 8:
       s += _row('chi²', r.chi2.toFixed(6));
       s += _row('λ', r.lambda.toFixed(4));
       s += _row('η', r.eta.toFixed(4));
       s += _row('Blocks N', r.N);
       break;
-    case 8:
+    case 9:
       s += _row('f_n', r.fn.toFixed(6));
       s += _row('E[f_n]', r.EL.toFixed(6));
       s += _row('σ', r.sigma.toFixed(6));
@@ -266,33 +272,33 @@ function _buildStats(idx, r, params) {
       s += _row('Q', r.Q);
       s += _row('K', r.K);
       break;
-    case 9:
+    case 10:
       s += _row('chi²', r.chi2.toFixed(6));
       s += _row('μ', r.mu.toFixed(4));
       s += _row('Blocks N', r.N);
       s += _row('Block M', r.M);
       break;
-    case 10:
+    case 11:
       s += _row('ΔΨ²', r.dPsi2.toFixed(6));
       s += _row('Δ²Ψ²', r.d2Psi2.toFixed(6));
       s += _row('p-value 1', r.pv1.toFixed(8));
       s += _row('p-value 2', r.pv2.toFixed(8));
       s += _row('m', r.m);
       break;
-    case 11:
+    case 12:
       s += _row('ApEn', r.ApEn.toFixed(6));
       s += _row('φ(m)', r.phi_m.toFixed(6));
       s += _row('φ(m+1)', r.phi_m1.toFixed(6));
       s += _row('chi²', r.chi2.toFixed(6));
       s += _row('m', r.m);
       break;
-    case 12:
+    case 13:
       s += _row('p-value fwd', r.pv_fwd.toFixed(8));
       s += _row('p-value bwd', r.pv_bwd.toFixed(8));
       s += _row('max|S| fwd', r.maxF);
       s += _row('max|S| bwd', r.maxB);
       break;
-    case 13:
+    case 14:
       s += _row('J (cycles)', r.J);
       s += '<div style="margin-top:10px;font-size:0.72rem;color:var(--text2)">Per-state p-values:</div>';
       s += '<div class="pv-grid">' + r.states.map(function(st) {
@@ -303,7 +309,7 @@ function _buildStats(idx, r, params) {
           res.pValue.toFixed(5) + '</span></div>';
       }).join('') + '</div>';
       break;
-    case 14:
+    case 15:
       s += _row('J (crossings)', r.J);
       s += '<div style="margin-top:10px;font-size:0.72rem;color:var(--text2)">Per-state p-values:</div>';
       s += '<div class="pv-grid">' + r.states.slice(0,8).map(function(st) {
@@ -332,13 +338,13 @@ function _buildPanelChart(idx, r, chartEl) {
   var cid = 'pc-' + idx;
 
   // Tests with no chart
-  if (id === 8 || id === 10 || id === 11) {
+  if (id === 9 || id === 11 || id === 12) {
     // Maurer: show a visual gauge for fn vs EL
-    if (id === 8 && r.fn !== undefined) {
+    if (id === 9 && r.fn !== undefined) {
       _makeMaurerGauge(chartEl, r);
-    } else if (id === 10) {
-      _makeSerial2Chart(chartEl, cid, r);
     } else if (id === 11) {
+      _makeSerial2Chart(chartEl, cid, r);
+    } else if (id === 12) {
       _makeApEnGauge(chartEl, r);
     }
     return;
@@ -392,16 +398,16 @@ function _buildPanelChart(idx, r, chartEl) {
     case 5:
       cfg = { type:'bar', data:{ labels:['Rank 32','Rank 31','Rank ≤30'], datasets:[{ data:[r.FM,r.FM1,r.rest], backgroundColor:['#30d158','#0071e3','#636366'], borderRadius:6, borderSkipped:false }] }, options: chartDefs };
       break;
-    case 6:
+    case 7:
       cfg = { type:'bar', data:{ labels: r.Wj.map(function(_,i){return 'B'+(i+1);}), datasets:[{ data:r.Wj, backgroundColor:'#ff9f0a', borderRadius:3, borderSkipped:false }] }, options: chartDefs };
       break;
-    case 7:
+    case 8:
       cfg = { type:'bar', data:{ labels: r.v.map(function(_,i){return String(i);}), datasets:[{ data:r.v, backgroundColor:'#bf5af2', borderRadius:4, borderSkipped:false }] }, options: chartDefs };
       break;
-    case 9:
+    case 10:
       cfg = { type:'bar', data:{ labels:['≤-2.5','(-2.5,-1.5]','(-1.5,-0.5]','(-0.5,0.5]','(0.5,1.5]','(1.5,2.5]','>2.5'], datasets:[{ data:r.v, backgroundColor:'#32ade6', borderRadius:4, borderSkipped:false }] }, options: chartDefs };
       break;
-    case 12:
+    case 13:
       if (r.fwd) {
         var step = Math.max(1, Math.floor(r.fwd.length/300));
         var lbl=[],dat=[];
@@ -412,13 +418,13 @@ function _buildPanelChart(idx, r, chartEl) {
         ] }, options: Object.assign({}, chartDefs, { plugins:{ legend:{ display:true, labels:{ color:tickC, font:{size:10} } } } }) };
       }
       break;
-    case 13:
+    case 14:
       cfg = { type:'bar', data:{ labels: r.states.map(function(s){return (s>0?'+':'')+s;}),
         datasets:[{ data: r.states.map(function(s){return r.results[s].pValue;}),
           backgroundColor: r.states.map(function(s){return r.results[s].pValue>=0.01?'#30d158':'#ff453a';}),
           borderRadius:4, borderSkipped:false }] }, options: chartDefs };
       break;
-    case 14:
+    case 15:
       cfg = { type:'bar', data:{ labels: r.states.map(function(s){return (s>0?'+':'')+s;}),
         datasets:[{ data: r.states.map(function(s){return r.results[s].cnt;}),
           backgroundColor:'#bf5af2', borderRadius:3, borderSkipped:false }] }, options: chartDefs };

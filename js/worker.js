@@ -2,20 +2,23 @@
 
 importScripts(
   'math.js',
+  'math/fft.js',
+  'math/dft.js',
   'tests/test-01-frequency.js',
   'tests/test-02-block-frequency.js',
   'tests/test-03-runs.js',
   'tests/test-04-longest-run.js',
   'tests/test-05-matrix-rank.js',
-  'tests/test-06-non-overlapping.js',
-  'tests/test-07-overlapping.js',
-  'tests/test-08-maurer.js',
-  'tests/test-09-linear-complexity.js',
-  'tests/test-10-serial.js',
-  'tests/test-11-approx-entropy.js',
-  'tests/test-12-cusum.js',
-  'tests/test-13-random-excursions.js',
-  'tests/test-14-random-excursions-variant.js'
+  'tests/test-06-discrete-fourier-transform.js',
+  'tests/test-07-non-overlapping.js',
+  'tests/test-08-overlapping.js',
+  'tests/test-09-maurer.js',
+  'tests/test-10-linear-complexity.js',
+  'tests/test-11-serial.js',
+  'tests/test-12-approx-entropy.js',
+  'tests/test-13-cusum.js',
+  'tests/test-14-random-excursions.js',
+  'tests/test-15-random-excursions-variant.js'
 );
 
 var TESTS_WORKER = [
@@ -24,6 +27,7 @@ var TESTS_WORKER = [
   { run: testRuns,                     extraArgs: null },
   { run: testLongestRun,               extraArgs: null },
   { run: testMatrixRank,               extraArgs: null },
+  { run: testDiscreteFourierTransform, extraArgs: null },
   { run: testNonOverlapping,           extraArgs: function(p){ return [p.m]; } },
   { run: testOverlapping,              extraArgs: function(p){ return [p.m]; } },
   { run: testMaurer,                   extraArgs: null },

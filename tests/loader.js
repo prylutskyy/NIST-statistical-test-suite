@@ -40,12 +40,16 @@ function createNistContext() {
     Array:      Array,
     Int32Array: Int32Array,
     Uint8Array: Uint8Array,
+    Float64Array: Float64Array,
     Infinity:   Infinity,
     console:    console
   });
+  ctx.self = ctx;
 
   // Layer 1 — math utilities
   load(ctx, 'js/math.js');
+  load(ctx, 'js/math/fft.js');
+  load(ctx, 'js/math/dft.js');
 
   // Layer 2 — statistical tests (each depends only on math.js globals)
   load(ctx, 'js/tests/test-01-frequency.js');
@@ -53,15 +57,16 @@ function createNistContext() {
   load(ctx, 'js/tests/test-03-runs.js');
   load(ctx, 'js/tests/test-04-longest-run.js');
   load(ctx, 'js/tests/test-05-matrix-rank.js');
-  load(ctx, 'js/tests/test-06-non-overlapping.js');
-  load(ctx, 'js/tests/test-07-overlapping.js');
-  load(ctx, 'js/tests/test-08-maurer.js');
-  load(ctx, 'js/tests/test-09-linear-complexity.js');
-  load(ctx, 'js/tests/test-10-serial.js');
-  load(ctx, 'js/tests/test-11-approx-entropy.js');
-  load(ctx, 'js/tests/test-12-cusum.js');
-  load(ctx, 'js/tests/test-13-random-excursions.js');
-  load(ctx, 'js/tests/test-14-random-excursions-variant.js');
+  load(ctx, 'js/tests/test-06-discrete-fourier-transform.js');
+  load(ctx, 'js/tests/test-07-non-overlapping.js');
+  load(ctx, 'js/tests/test-08-overlapping.js');
+  load(ctx, 'js/tests/test-09-maurer.js');
+  load(ctx, 'js/tests/test-10-linear-complexity.js');
+  load(ctx, 'js/tests/test-11-serial.js');
+  load(ctx, 'js/tests/test-12-approx-entropy.js');
+  load(ctx, 'js/tests/test-13-cusum.js');
+  load(ctx, 'js/tests/test-14-random-excursions.js');
+  load(ctx, 'js/tests/test-15-random-excursions-variant.js');
 
   return ctx;
 }

@@ -6,7 +6,7 @@ A complete, client-side browser implementation of the **NIST SP 800-22 Rev 1a** 
 
 ## What Is This?
 
-[NIST SP 800-22](https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-22r1a.pdf) is the de-facto standard battery of statistical tests for evaluating random and pseudorandom number generators (RNGs and PRNGs) used in cryptographic applications. It was published by the National Institute of Standards and Technology in 2010 and defines 15 tests (this suite implements all 14 that apply to a single binary sequence).
+[NIST SP 800-22](https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-22r1a.pdf) is the de-facto standard battery of statistical tests for evaluating random and pseudorandom number generators (RNGs and PRNGs) used in cryptographic applications. It was published by the National Institute of Standards and Technology in 2010 and defines 15 tests (this suite implements all 15 that apply to a single binary sequence).
 
 This tool is useful for:
 
@@ -21,7 +21,7 @@ This tool is useful for:
 
 | Feature | Detail |
 |---|---|
-| **All 14 NIST tests** | Tests 1–14 per NIST SP 800-22 Rev 1a, verified against Appendix B reference vectors |
+| **All 15 NIST tests** | Tests 1–15 per NIST SP 800-22 Rev 1a, verified against Appendix B reference vectors |
 | **Apple-style UI** | Sidebar + animated carousel panel, dark/light mode |
 | **File loading** | Drag-and-drop or file picker; accepts binary, Base64-encoded, or plain 0/1 text |
 | **Base64 pipeline** | Decodes Base64 → raw bytes → bits (MSB first); Base64 chars are never analysed directly as bits |
@@ -59,7 +59,7 @@ File dropped / selected
 
 ---
 
-## The 14 Tests
+## The 15 Tests
 
 | # | Name | Detects | Min bits |
 |---|---|---|---|
@@ -68,17 +68,18 @@ File dropped / selected
 | 3 | Runs | Too many or too few bit transitions | 100 |
 | 4 | Longest Run of Ones | Unusually long runs of 1s in blocks | 128 |
 | 5 | Binary Matrix Rank | Linear dependence via GF(2) rank | 1 024 |
-| 6 | Non-Overlapping Template | Excess occurrences of aperiodic pattern | 8×m |
-| 7 | Overlapping Template | Excess overlapping all-ones pattern | 1 032 |
-| 8 | Maurer's Universal | Compressibility of the sequence | ~3 850 |
-| 9 | Linear Complexity | LFSR length per block (Berlekamp–Massey) | LC block |
-| 10 | Serial | Unequal frequency of 3-bit patterns | 100 |
-| 11 | Approximate Entropy | m-bit vs (m+1)-bit pattern frequency difference | 100 |
-| 12 | Cumulative Sums | Deviation of partial-sum walk from zero | 100 |
-| 13 | Random Excursions | Visits to states ±1…±4 per cycle | no fixed minimum¹ |
-| 14 | Random Excursions Variant | Total visits to states ±1…±9 | no fixed minimum¹ |
+| 6 | Discrete Fourier Transform | Periodic features in the sequence | 1 000 |
+| 7 | Non-Overlapping Template | Excess occurrences of aperiodic pattern | 8×m |
+| 8 | Overlapping Template | Excess overlapping all-ones pattern | 1 032 |
+| 9 | Maurer's Universal | Compressibility of the sequence | ~3 850 |
+| 10 | Linear Complexity | LFSR length per block (Berlekamp–Massey) | LC block |
+| 11 | Serial | Unequal frequency of 3-bit patterns | 100 |
+| 12 | Approximate Entropy | m-bit vs (m+1)-bit pattern frequency difference | 100 |
+| 13 | Cumulative Sums | Deviation of partial-sum walk from zero | 100 |
+| 14 | Random Excursions | Visits to states ±1…±4 per cycle | no fixed minimum¹ |
+| 15 | Random Excursions Variant | Total visits to states ±1…±9 | no fixed minimum¹ |
 
-> ¹ Tests 13 & 14 use the condition J ≥ MAX(0.005·√n, 500), taken directly from the NIST STS C source.
+> ¹ Tests 14 & 15 use the condition J ≥ MAX(0.005·√n, 500), taken directly from the NIST STS C source.
 > J is the number of zero crossings of the partial-sum walk and follows the arc-sine distribution.
 > E[J] ≈ √(2n/π), so even n = 1 000 000 bits gives J ≥ 500 in only ~60% of random sequences.
 > N/A is a valid, expected outcome per NIST design — not an implementation error.
@@ -102,15 +103,16 @@ nist/
 │   │   ├── test-03-runs.js
 │   │   ├── test-04-longest-run.js
 │   │   ├── test-05-matrix-rank.js
-│   │   ├── test-06-non-overlapping.js
-│   │   ├── test-07-overlapping.js
-│   │   ├── test-08-maurer.js
-│   │   ├── test-09-linear-complexity.js
-│   │   ├── test-10-serial.js
-│   │   ├── test-11-approx-entropy.js
-│   │   ├── test-12-cusum.js
-│   │   ├── test-13-random-excursions.js
-│   │   └── test-14-random-excursions-variant.js
+│   │   ├── test-06-discrete-fourier-transform.js
+│   │   ├── test-07-non-overlapping.js
+│   │   ├── test-08-overlapping.js
+│   │   ├── test-09-maurer.js
+│   │   ├── test-10-linear-complexity.js
+│   │   ├── test-11-serial.js
+│   │   ├── test-12-approx-entropy.js
+│   │   ├── test-13-cusum.js
+│   │   ├── test-14-random-excursions.js
+│   │   └── test-15-random-excursions-variant.js
 │   └── ui/
 │       ├── carousel.js           # Apple-style sidebar + animated panels
 │       ├── card.js               # Card factory (legacy, used by old renderers)
