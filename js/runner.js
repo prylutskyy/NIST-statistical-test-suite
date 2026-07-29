@@ -30,15 +30,15 @@ function runAllTests(bits, params) {
   
   if (layout) layout.classList.add('visible');
   if (sidebar) sidebar.innerHTML = '';
-  if (summary) summary.innerHTML = '<span class="sum-pill sum-na">Обробка...</span>';
+  if (summary) summary.innerHTML = '<span class="sum-pill sum-na">Processing...</span>';
   if (summary) summary.classList.add('visible');
   if (viewport) {
     viewport.innerHTML = '<div style="display:flex; flex-direction:column; width:100%; height:100%; align-items:center; justify-content:center; padding: 0 40px;">' +
-        '<div style="font-size:1.1rem; color:var(--text); margin-bottom:20px; font-weight:500;">Аналіз ' + bits.length + ' бітів...</div>' +
+        '<div style="font-size:1.1rem; color:var(--text); margin-bottom:20px; font-weight:500;">Analysing ' + bits.length + ' bits...</div>' +
         '<div style="width: 100%; max-width: 400px; height: 8px; background: var(--bg4); border-radius: 8px; overflow: hidden; box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);">' +
           '<div id="testProgress" style="width: 0%; height: 100%; background: linear-gradient(90deg, var(--accent), #bf5af2); transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);"></div>' +
         '</div>' +
-        '<div id="testName" style="margin-top:16px; font-size:0.8rem; color:var(--text3); font-family:var(--font-mono); text-transform:uppercase; letter-spacing:0.05em; animation: pulse-text 1.5s infinite alternate ease-in-out;">Ініціалізація...</div>' +
+        '<div id="testName" style="margin-top:16px; font-size:0.8rem; color:var(--text3); font-family:var(--font-mono); text-transform:uppercase; letter-spacing:0.05em; animation: pulse-text 1.5s infinite alternate ease-in-out;">Initializing...</div>' +
       '</div>';
   }
 
@@ -51,7 +51,7 @@ function runAllTests(bits, params) {
       var progressEl = document.getElementById('testProgress');
       var nameEl = document.getElementById('testName');
       if (progressEl) progressEl.style.width = pct + '%';
-      if (nameEl) nameEl.textContent = 'Виконується Тест ' + (data.testIndex + 1) + ' з ' + data.total + '...';
+      if (nameEl) nameEl.textContent = 'Running Test ' + (data.testIndex + 1) + ' of ' + data.total + '...';
       return;
     }
     
@@ -77,7 +77,7 @@ function runAllTests(bits, params) {
     var errEl = document.getElementById('inputError');
     if (errEl) errEl.textContent = 'An error occurred during analysis in Web Worker.';
     if (viewport) {
-      viewport.innerHTML = '<div style="display:flex; height:100%; align-items:center; justify-content:center; color:var(--fail);">Помилка обробки.</div>';
+      viewport.innerHTML = '<div style="display:flex; height:100%; align-items:center; justify-content:center; color:var(--fail);">Processing error.</div>';
     }
     worker.terminate();
   };
