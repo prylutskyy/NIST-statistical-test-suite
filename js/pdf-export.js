@@ -133,22 +133,29 @@ function generateHeadlessCharts() {
 function _getTestParamsForPdf(id, r, params) {
   if (!r) return [];
   var p = [];
+  
+  function fmt(val, dec) {
+    if (val === undefined || val === null) return 'N/A';
+    if (typeof val === 'number') return val.toFixed(dec !== undefined ? dec : 6);
+    return val;
+  }
+
   switch(id) {
-    case 1: p.push(['S_obs', r.sObs.toFixed(6)], ['Ones', r.ones], ['Zeros', r.zeros], ['n', r.n]); break;
-    case 2: p.push(['chi²', r.chi2.toFixed(6)], ['Blocks N', r.N], ['Block M', r.M]); break;
-    case 3: p.push(['Total runs Vn', r.Vn], ['pi (1s ratio)', typeof r.pi==='number'?r.pi.toFixed(6):'N/A'], ['n', r.n]); break;
-    case 4: p.push(['chi²', r.chi2.toFixed(6)], ['Blocks N', r.N], ['Block M', r.M]); break;
-    case 5: p.push(['chi²', r.chi2.toFixed(6)], ['Matrices N', r.N]); break;
+    case 1: p.push(['S_obs', fmt(r.sObs)], ['Ones', r.ones || 'N/A'], ['Zeros', r.zeros || 'N/A'], ['n', r.n || 'N/A']); break;
+    case 2: p.push(['chi²', fmt(r.chi2)], ['Blocks N', r.N || 'N/A'], ['Block M', r.M || 'N/A']); break;
+    case 3: p.push(['Total runs Vn', r.Vn || 'N/A'], ['pi (1s ratio)', fmt(r.pi)], ['n', r.n || 'N/A']); break;
+    case 4: p.push(['chi²', fmt(r.chi2)], ['Blocks N', r.N || 'N/A'], ['Block M', r.M || 'N/A']); break;
+    case 5: p.push(['chi²', fmt(r.chi2)], ['Matrices N', r.N || 'N/A']); break;
     case 6: p.push(['N0', r.stats ? r.stats.N0 : 'N/A'], ['N1', r.stats ? r.stats.N1 : 'N/A']); break;
-    case 7: p.push(['chi²', r.chi2.toFixed(6)], ['Blocks N', r.N], ['Template m', r.m]); break;
-    case 8: p.push(['chi²', r.chi2.toFixed(6)], ['Blocks N', r.N]); break;
-    case 9: p.push(['f_n', r.fn.toFixed(6)], ['E[f_n]', r.EL.toFixed(6)], ['L', r.L]); break;
-    case 10: p.push(['chi²', r.chi2.toFixed(6)], ['Blocks N', r.N], ['Block M', r.M]); break;
-    case 11: p.push(['ΔΨ²', r.dPsi2.toFixed(6)], ['Δ²Ψ²', r.d2Psi2.toFixed(6)], ['m', r.m]); break;
-    case 12: p.push(['ApEn', r.ApEn.toFixed(6)], ['chi²', r.chi2.toFixed(6)], ['m', r.m]); break;
-    case 13: p.push(['max|S| fwd', r.maxF], ['max|S| bwd', r.maxB]); break;
-    case 14: p.push(['J (cycles)', r.J]); break;
-    case 15: p.push(['J (crossings)', r.J]); break;
+    case 7: p.push(['chi²', fmt(r.chi2)], ['Blocks N', r.N || 'N/A'], ['Template m', r.m || 'N/A']); break;
+    case 8: p.push(['chi²', fmt(r.chi2)], ['Blocks N', r.N || 'N/A']); break;
+    case 9: p.push(['f_n', fmt(r.fn)], ['E[f_n]', fmt(r.EL)], ['L', r.L || 'N/A']); break;
+    case 10: p.push(['chi²', fmt(r.chi2)], ['Blocks N', r.N || 'N/A'], ['Block M', r.M || 'N/A']); break;
+    case 11: p.push(['ΔΨ²', fmt(r.dPsi2)], ['Δ²Ψ²', fmt(r.d2Psi2)], ['m', r.m || 'N/A']); break;
+    case 12: p.push(['ApEn', fmt(r.ApEn)], ['chi²', fmt(r.chi2)], ['m', r.m || 'N/A']); break;
+    case 13: p.push(['max|S| fwd', r.maxF || 'N/A'], ['max|S| bwd', r.maxB || 'N/A']); break;
+    case 14: p.push(['J (cycles)', r.J || 'N/A']); break;
+    case 15: p.push(['J (crossings)', r.J || 'N/A']); break;
   }
   return p;
 }
