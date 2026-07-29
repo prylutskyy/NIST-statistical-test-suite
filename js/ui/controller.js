@@ -59,10 +59,7 @@ function runAll() {
 
   infoEl.textContent = 'Analysing ' + bits.length + ' bits…';
 
-  setTimeout(function() {
-    runAllTests(bits, params);
-    infoEl.textContent = bits.length + ' bits analysed.';
-  }, 30);
+  runAllTests(bits, params);
 }
 
 /* ── Random generator ────────────────────────────────────────────────────────── */

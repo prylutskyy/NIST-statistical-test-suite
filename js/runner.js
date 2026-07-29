@@ -23,18 +23,49 @@ var TESTS = [
 ];
 
 function runAllTests(bits, params) {
-  var results = [];
-  for (var i = 0; i < TESTS.length; i++) {
-    var t    = TESTS[i];
-    var args = [bits].concat(t.extraArgs ? t.extraArgs(params) : []);
-    var r    = t.run.apply(null, args);
-    results.push(r);
+  var layout = document.getElementById('carouselLayout');
+  var viewport = document.getElementById('panelViewport');
+  var sidebar = document.getElementById('testSidebar');
+  var summary = document.getElementById('summary');
+  
+  if (layout) layout.classList.add('visible');
+  if (sidebar) sidebar.innerHTML = '';
+  if (summary) summary.innerHTML = '<span class="sum-pill sum-na">Обробка...</span>';
+  if (summary) summary.classList.add('visible');
+  if (viewport) {
+    viewport.innerHTML = '<div style="display:flex; height:100%; align-items:center; justify-content:center; color:var(--text2); font-size:1.1rem; animation: pulse-text 1.5s infinite alternate ease-in-out;">Аналіз ' + bits.length + ' бітів. Зачекайте...</div>';
   }
 
-  // Carousel UI
-  _lastParams = params;
-  applyResults(results, params);
-  renderSummary(bits.length, results);
+  var worker = new Worker('js/worker.js');
+  worker.onmessage = function(e) {
+    var data = e.data;
+    _lastParams = data.params;
+    
+    // Відновлюємо DOM-елементи каруселі, які ми стерли для показу лоадера
+    if (typeof buildCarousel === 'function') {
+      buildCarousel();
+    }
+    
+    applyResults(data.results, data.params);
+    renderSummary(data.bitsLength, data.results);
+    
+    var infoEl = document.getElementById('inputInfo');
+    if (infoEl) infoEl.textContent = data.bitsLength + ' bits analysed.';
+    
+    worker.terminate();
+  };
+  
+  worker.onerror = function(err) {
+    console.error('Worker error:', err);
+    var errEl = document.getElementById('inputError');
+    if (errEl) errEl.textContent = 'An error occurred during analysis in Web Worker.';
+    if (viewport) {
+      viewport.innerHTML = '<div style="display:flex; height:100%; align-items:center; justify-content:center; color:var(--fail);">Помилка обробки.</div>';
+    }
+    worker.terminate();
+  };
+  
+  worker.postMessage({ bits: bits, params: params });
 }
 
 function renderSummary(totalBits, results) {

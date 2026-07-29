@@ -26,6 +26,7 @@ This tool is useful for:
 | **File loading** | Drag-and-drop or file picker; accepts binary, Base64-encoded, or plain 0/1 text |
 | **Base64 pipeline** | Decodes Base64 → raw bytes → bits (MSB first); Base64 chars are never analysed directly as bits |
 | **Configurable parameters** | Block size (M), template length (m), LC block size — all adjustable |
+| **Web Workers** | Mathematical analysis is offloaded to a background thread to keep the UI fully responsive |
 | **Privacy by design** | All computation is local; your data never leaves the browser |
 | **Unit tested** | 182 automated tests (123 NIST + 59 pipeline) — zero external test libraries |
 | **SOLID architecture** | 22 source files across 4 dependency layers; one file per test |
@@ -237,6 +238,10 @@ Note: the naive claim "L ≤ ceil(n/2)" is **false** for individual sequences. F
 ---
 
 ## Changelog
+
+### 2026-07-29
+- **Refactor:** Migrated heavy statistical calculations (14 NIST tests) to run asynchronously in a Web Worker, preventing UI freezing and keeping the interface responsive even for multi-million-bit sequences.
+- **Added:** Smooth pulsing inline loading state during analysis.
 
 ### 2026-05-05
 - **Fixed:** Tests 13 & 14 — N/A message corrected from the misleading "Use >= 10 000 bits" to an accurate description referencing the arc-sine distribution, E[J] ≈ √(2n/π), and the NIST official constraint `MAX(0.005·√n, 500)`.
