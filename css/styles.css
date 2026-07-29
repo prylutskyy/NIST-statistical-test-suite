@@ -849,10 +849,18 @@ code {
   position: relative;
   margin: 32px 0 24px;
   border: 1px solid var(--border);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+.creator-card.modern-banner::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
   background-image: linear-gradient(to right, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.2) 100%), url('../img/stol_airplane_bg.png');
   background-size: cover;
   background-position: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  transform: scale(1.03);
+  z-index: -1;
 }
 .creator-content {
   display: flex;
