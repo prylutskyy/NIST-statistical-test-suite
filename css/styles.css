@@ -1127,3 +1127,55 @@ svg.icon {
   width: 64px;
   height: 64px;
 }
+
+/* ── Mobile Optimizations (Help & About) ────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Layout paddings */
+  .doc-layout { padding: 16px; gap: 16px; }
+  .about-layout { padding: 24px 16px 40px; }
+  
+  /* Glass panels & sections */
+  .glass-panel { padding: 24px; border-radius: 16px; }
+  .glass-panel .doc-section { padding-bottom: 24px; margin-bottom: 24px; }
+  .doc-section { padding: 20px 24px; }
+  
+  /* Tables */
+  .param-table, .test-table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+  }
+  .test-table td:nth-child(2) { width: auto; min-width: 120px; }
+  .param-table td, .test-table td, .param-table th, .test-table th {
+    padding: 10px;
+    font-size: 0.85rem;
+    white-space: normal;
+  }
+
+  /* Typography & Elements */
+  .about-hero { padding: 16px 8px 16px; }
+  .about-hero h2 { font-size: 1.2rem; }
+  .tag-row { gap: 6px; }
+  .tag { padding: 4px 10px; font-size: 0.7rem; }
+  
+  /* Feature Grid */
+  .feature-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .feature-card { padding: 14px; }
+  
+  /* Creator Card */
+  .creator-content { padding: 24px 16px; }
+  .creator-avatar { width: 80px; height: 80px; }
+  .creator-info h4 { font-size: 1.4rem; }
+}
+
+@media (max-width: 480px) {
+  .glass-panel { padding: 16px; }
+  .doc-section { padding: 16px; }
+  .creator-content { padding: 20px 12px; }
+  .about-hero h2 { font-size: 1.1rem; }
+}
