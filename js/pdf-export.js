@@ -288,3 +288,29 @@ function generatePdfReport() {
 
   pdfMake.createPdf(docDef).download('NIST_Report_' + meta.filename + '.pdf');
 }
+
+/**
+ * Stage 5: UI handler for the Export PDF button.
+ */
+function exportToPdf() {
+  var btn = document.getElementById('exportPdfBtn');
+  if (!btn) return;
+  
+  var originalHtml = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<svg class="icon spin" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width:14px;height:14px;animation:spin 1s linear infinite;"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="4.93" x2="19.07" y2="7.76"></line></svg><span> Generating...</span>';
+  
+  // Use setTimeout to allow the browser to paint the spinner
+  setTimeout(function() {
+    try {
+      generateHeadlessCharts();
+      generatePdfReport();
+    } catch(e) {
+      console.error('PDF Generation Failed:', e);
+      alert('Failed to generate PDF. Check console for details.');
+    } finally {
+      btn.innerHTML = originalHtml;
+      btn.disabled = false;
+    }
+  }, 50);
+}

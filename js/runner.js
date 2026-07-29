@@ -103,7 +103,11 @@ function renderSummary(totalBits, results) {
     '<span class="sum-pill sum-pass"><span class="dot"></span>PASS: ' + passed + '</span>' +
     '<span class="sum-pill sum-fail"><span class="dot"></span>FAIL: ' + failed + '</span>' +
     '<span class="sum-pill sum-na"><span class="dot"></span>N/A: ' + na + '</span>' +
-    '<span class="sum-bits">' + totalBits + ' bits</span>';
+    '<span class="sum-bits">' + totalBits + ' bits</span>' +
+    '<button id="exportPdfBtn" class="btn-primary" style="margin-left:auto; padding:6px 12px; font-size:0.85rem; display:flex; align-items:center; gap:6px;" onclick="exportToPdf()">' +
+      '<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width:14px;height:14px;stroke-width:2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>' +
+      '<span>Export PDF</span>' +
+    '</button>';
   el.classList.add('visible');
 
   var layout = document.getElementById('carouselLayout');

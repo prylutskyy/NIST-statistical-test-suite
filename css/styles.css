@@ -1272,3 +1272,6 @@ svg.icon {
   .creator-content { padding: 20px 12px; }
   .about-hero h2 { font-size: 1.1rem; }
 }
+
+@keyframes spin { 100% { transform: rotate(360deg); } }
+
