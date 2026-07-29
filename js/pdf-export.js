@@ -180,11 +180,20 @@ function generatePdfReport() {
   var docDef = {
     info: {
       title: 'NIST SP 800-22 Report - ' + meta.filename,
-      author: 'NIST Test Suite Simulator',
-      subject: 'Randomness Analysis Report'
+      author: 'Alex Prylutskyy',
+      subject: 'Statistical Randomness Analysis Report',
+      creator: 'NIST SP 800-22 Browser Suite by Alex Prylutskyy'
     },
     pageSize: 'A4',
     pageMargins: [40, 60, 40, 60],
+    footer: function(currentPage, pageCount) {
+      return {
+        columns: [
+          { text: 'NIST SP 800-22 Audit Report • Engineered by Alex Prylutskyy', alignment: 'left', fontSize: 8, color: '#888888', margin: [40, 10, 0, 0] },
+          { text: 'Page ' + currentPage.toString() + ' of ' + pageCount, alignment: 'right', fontSize: 8, color: '#888888', margin: [0, 10, 40, 0] }
+        ]
+      };
+    },
     content: [
       { text: 'NIST SP 800-22 Randomness Analysis Report', style: 'header', alignment: 'center' },
       { text: 'Generated on: ' + new Date(meta.date).toLocaleString(), alignment: 'center', margin: [0, 0, 0, 20] },
