@@ -216,8 +216,11 @@
   <div class="doc-section" id="help-tests">
     <h2><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="18" y="3" width="4" height="18"></rect><rect x="10" y="8" width="4" height="13"></rect><rect x="2" y="13" width="4" height="8"></rect></svg> All 15 Tests at a Glance</h2>
     <div class="table-container">
-      <table>
-        <tr><th>#</th><th>NIST Test Name</th><th>What it detects</th><th>Min bits recommended</th></tr>
+      <table class="test-table">
+        <thead>
+          <tr><th>#</th><th>NIST Test Name</th><th>What it detects</th><th>Min bits recommended</th></tr>
+        </thead>
+        <tbody>
         <tr><td>1</td><td>Frequency (Monobit)</td><td>Imbalance between the number of 0s and 1s across the entire sequence.</td><td>100</td></tr>
         <tr><td>2</td><td>Block Frequency</td><td>Imbalance of 1s in M-bit blocks. Expects \( \frac{M}{2} \) ones per block.</td><td>\( M \)</td></tr>
         <tr><td>3</td><td>Runs</td><td>Too many or too few bit transitions (0→1 or 1→0). Checks if oscillation is natural.</td><td>100</td></tr>
@@ -233,6 +236,7 @@
         <tr><td>13</td><td>Cumulative Sums</td><td>Maximum absolute deviation of the partial-sum random walk from zero (both forward and backward).</td><td>100</td></tr>
         <tr><td>14</td><td>Random Excursions</td><td>Number of visits to states \( \pm 1 \dots \pm 4 \) within each cycle of the partial-sum walk.</td><td>no fixed min</td></tr>
         <tr><td>15</td><td>Random Excursions Variant</td><td>Total number of visits to states \( \pm 1 \dots \pm 9 \) across the entire random walk.</td><td>no fixed min</td></tr>
+        </tbody>
       </table>
     </div>
   </div>
