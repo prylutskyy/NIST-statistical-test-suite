@@ -62,11 +62,9 @@ async function runAll() {
   // Prepare global report data
   var hashHex = "N/A";
   try {
-    var byteLen = Math.ceil(raw.length / 8);
-    var bytes = new Uint8Array(byteLen);
-    for(var i=0; i<raw.length; i++) {
-      if(raw[i] === '1') bytes[Math.floor(i/8)] |= (1 << (7 - (i%8)));
-    }
+    // We compute the hash of the exact ASCII sequence of '0' and '1' characters
+    // being analyzed, making it easy to verify with e.g. `echo -n "0101..." | sha256sum`
+    var bytes = new TextEncoder().encode(raw);
     var hashBuffer = await crypto.subtle.digest('SHA-256', bytes);
     var hashArray = Array.from(new Uint8Array(hashBuffer));
     hashHex = hashArray.map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
