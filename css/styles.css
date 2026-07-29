@@ -149,6 +149,83 @@ body {
   padding: 32px 24px 20px;
 }
 
+.input-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 24px;
+  position: relative;
+}
+.input-tab {
+  background: transparent;
+  border: none;
+  color: var(--text3);
+  font-family: var(--font);
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 980px;
+  transition: all 0.3s;
+}
+.input-tab:hover {
+  color: var(--text);
+  background: var(--bg3);
+}
+.input-tab.active {
+  color: #fff;
+  background: var(--accent);
+  box-shadow: 0 4px 14px rgba(0,113,227,0.3);
+}
+.input-tab-content {
+  display: none;
+  animation: fade-in-scale 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.input-tab-content.active {
+  display: block;
+}
+@keyframes fade-in-scale {
+  0% { opacity: 0; transform: scale(0.98); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.advanced-settings {
+  margin-top: 24px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 12px 20px;
+}
+.advanced-settings summary {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text2);
+  cursor: pointer;
+  list-style: none;
+  outline: none;
+  text-align: center;
+}
+.advanced-settings summary::-webkit-details-marker {
+  display: none;
+}
+
+.run-section {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+.btn-run {
+  font-size: 1rem;
+  padding: 12px 36px;
+}
+.btn-run:disabled {
+  background: var(--bg4) !important;
+  color: var(--text3) !important;
+  box-shadow: none !important;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
 .input-label {
   font-size: 0.78rem;
   font-weight: 500;

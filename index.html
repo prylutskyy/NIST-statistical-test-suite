@@ -13,7 +13,7 @@
 <div class="ambient-blob blob-1"></div>
 <div class="ambient-blob blob-2"></div>
 <!-- ── Top bar ──────────────────────────────────────────────────────────────── -->
-<header class="topbar">
+<header class="topbar" style="position: sticky; top: 0; z-index: 100; backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); background: color-mix(in srgb, var(--bg2) 80%, transparent);">
   <div class="topbar-brand">NIST SP 800-22 <span>Randomness Test Suite</span></div>
   <nav class="nav-pills">
     <button class="nav-pill active" onclick="showPage('tests',this)">Tests</button>
@@ -29,46 +29,54 @@
 
   <!-- Input -->
   <div class="input-section">
+    <div class="input-tabs">
+      <button class="input-tab active" onclick="switchInputTab('file', this)">📂 File Upload</button>
+      <button class="input-tab" onclick="switchInputTab('text', this)">📝 Paste Text</button>
+      <button class="input-tab" onclick="switchInputTab('gen', this)">🎲 Generate</button>
+      <div class="input-tab-indicator" id="tabIndicator"></div>
+    </div>
 
     <!-- Drop zone (file upload + DnD) -->
-    <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
-      <input type="file" id="fileInput" accept="*/*" style="display:none">
-      <div class="drop-zone-icon">&#8659;</div>
-      <div class="drop-zone-main">Drop a file here or <span class="drop-zone-link">click to browse</span></div>
-      <div class="drop-zone-sub">Accepts any file: binary, Base64-encoded, or plain 0/1 text</div>
+    <div class="input-tab-content active" id="tab-file">
+      <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+        <input type="file" id="fileInput" accept="*/*" style="display:none">
+        <div class="drop-zone-icon">&#8659;</div>
+        <div class="drop-zone-main">Drop a file here or <span class="drop-zone-link">click to browse</span></div>
+        <div class="drop-zone-sub">Accepts any file: binary, Base64-encoded, or plain 0/1 text</div>
+      </div>
     </div>
 
     <!-- Textarea -->
-    <label class="input-label" style="margin-top:14px">Or type / paste a binary sequence</label>
-    <textarea id="binInput" placeholder="Paste a string of 0s and 1s…"></textarea>
-
-    <!-- Controls row 1: params + run -->
-    <div class="controls">
-      <label class="param-label">
-        Block M <span>Test 2</span>
-        <input type="number" id="blockSize" value="128" min="8" max="10000">
-      </label>
-      <label class="param-label">
-        Template m <span>T6&7</span>
-        <input type="number" id="tmplSize" value="9" min="2" max="10">
-      </label>
-      <label class="param-label">
-        LC block <span>Test 9</span>
-        <input type="number" id="lcBlock" value="500" min="50" max="5000">
-      </label>
-      <button class="btn-primary" onclick="runAll()">&#9654; Run All Tests</button>
+    <div class="input-tab-content" id="tab-text">
+      <textarea id="binInput" placeholder="Paste a string of 0s and 1s… (Min 100 bits)" oninput="checkInputState()"></textarea>
     </div>
 
-    <!-- Controls row 2: generate -->
-    <div class="controls controls-gen">
-      <span class="gen-label">Generate random sequence:</span>
-      <button class="btn-secondary" onclick="generateRandom(1000)">&#127922; 1 000 bits</button>
-      <button class="btn-secondary" onclick="generateRandom(10000)">&#127922; 10 000 bits</button>
-      <button class="btn-secondary" onclick="generateRandom(1000000)">&#127922; 1 000 000 bits</button>
+    <!-- Generate -->
+    <div class="input-tab-content" id="tab-gen">
+      <div class="controls controls-gen" style="justify-content: center;">
+        <span class="gen-label">Generate random sequence:</span>
+        <button class="btn-secondary" onclick="generateRandom(1000)">&#127922; 1 000 bits</button>
+        <button class="btn-secondary" onclick="generateRandom(10000)">&#127922; 10 000 bits</button>
+        <button class="btn-secondary" onclick="generateRandom(1000000)">&#127922; 1 000 000 bits</button>
+      </div>
     </div>
 
     <div id="inputError" class="msg-error"></div>
     <div id="inputInfo"  class="msg-info"></div>
+
+    <!-- Advanced Settings & Run -->
+    <details class="advanced-settings">
+      <summary>⚙️ Advanced Parameters</summary>
+      <div class="controls" style="margin-top:12px; justify-content:center;">
+        <label class="param-label">Block M <span>Test 2</span><input type="number" id="blockSize" value="128" min="8" max="10000"></label>
+        <label class="param-label">Template m <span>T6&7</span><input type="number" id="tmplSize" value="9" min="2" max="10"></label>
+        <label class="param-label">LC block <span>Test 9</span><input type="number" id="lcBlock" value="500" min="50" max="5000"></label>
+      </div>
+    </details>
+
+    <div class="run-section">
+      <button id="runBtn" class="btn-primary btn-run" onclick="runAll()" disabled>&#9654; Run All Tests</button>
+    </div>
   </div>
 
   <!-- Summary strip -->

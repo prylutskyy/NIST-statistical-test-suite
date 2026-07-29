@@ -70,6 +70,10 @@ function generateRandom(len) {
   document.getElementById('binInput').value         = bits.join('');
   document.getElementById('inputError').textContent  = '';
   document.getElementById('inputInfo').textContent   = '';
+  
+  var textBtn = document.querySelectorAll('.input-tab')[1];
+  if (typeof switchInputTab === 'function') switchInputTab('text', textBtn);
+  if (typeof checkInputState === 'function') checkInputState();
 }
 
 /* ── Byte array → bit string ─────────────────────────────────────────────────── */
@@ -217,12 +221,17 @@ function _loadBitString(bitStr, filename, modeLabel) {
   if (bitStr.length < 100) {
     errEl.textContent = '"' + filename + '" decoded to only ' + bitStr.length + ' bits. Minimum is 100.';
     _dropReset();
+    if (typeof checkInputState === 'function') checkInputState();
     return;
   }
 
   document.getElementById('binInput').value = bitStr;
   infoEl.textContent = '\u2713 "' + filename + '" loaded as ' + modeLabel + ' — ' + bitStr.length + ' bits.';
   _dropOk();
+  
+  var textBtn = document.querySelectorAll('.input-tab')[1];
+  if (typeof switchInputTab === 'function') switchInputTab('text', textBtn);
+  if (typeof checkInputState === 'function') checkInputState();
 }
 
 /* ── Drop zone state helpers ─────────────────────────────────────────────────── */
@@ -275,4 +284,34 @@ document.addEventListener('DOMContentLoaded', function() {
   /* Global guard — stop browser from opening dropped files in a new tab */
   document.addEventListener('dragover', function(e) { e.preventDefault(); });
   document.addEventListener('drop',     function(e) { e.preventDefault(); });
+  
+  // Initial check
+  if (typeof checkInputState === 'function') checkInputState();
 });
+
+/* ── UI Interaction helpers ──────────────────────────────────────────────────── */
+
+function switchInputTab(tabId, btn) {
+  var tabs = document.querySelectorAll('.input-tab');
+  for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('active');
+  if (btn) btn.classList.add('active');
+  
+  var contents = document.querySelectorAll('.input-tab-content');
+  for (var i = 0; i < contents.length; i++) contents[i].classList.remove('active');
+  var target = document.getElementById('tab-' + tabId);
+  if (target) target.classList.add('active');
+}
+
+function checkInputState() {
+  var inputEl = document.getElementById('binInput');
+  if (!inputEl) return;
+  var raw = inputEl.value.replace(/\s/g, '');
+  var runBtn = document.getElementById('runBtn');
+  if (runBtn) {
+    if (raw.length >= 100) {
+      runBtn.removeAttribute('disabled');
+    } else {
+      runBtn.setAttribute('disabled', 'true');
+    }
+  }
+}
