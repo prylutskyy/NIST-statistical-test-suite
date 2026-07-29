@@ -6,6 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NIST SP 800-22 — Randomness Test Suite</title>
   <link rel="stylesheet" href="css/styles.css">
+  
+  <!-- KaTeX for math rendering -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" 
+      onload="renderMathInElement(document.body, { delimiters: [{left: '$$', right: '$$', display: true}, {left: '\\(', right: '\\)', display: false}, {left: '$', right: '$', display: false}] });"></script>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 </head>
 <body>
@@ -137,7 +144,7 @@
       <li><strong>Paste</strong> — type or paste a string of <code>0</code>s and <code>1</code>s directly into the text area. Spaces, tabs, and newlines are ignored.</li>
       <li><strong>Generate</strong> — click <em>1 000 bits</em> or <em>10 000 bits</em> to fill the text area with a pseudo-random sequence for demonstration.</li>
     </ul>
-    <p>Minimum length: <strong>100 bits</strong>. NIST recommends at least <strong>1 000 bits</strong>. Tests 13 &amp; 14 require <strong>≈ 500 000+ bits</strong> in practice (J ≥ 500 zero crossings; expected J ≈ √(2n/π)).</p>
+    <p>Minimum length: <strong>100 bits</strong>. NIST recommends at least <strong>1 000 bits</strong>. Tests 13 &amp; 14 require <strong>≈ 500 000+ bits</strong> in practice (\( J \ge 500 \) zero crossings; expected \( \mathbb{E}[J] \approx \sqrt{2n/\pi} \)).</p>
 
     <h3>Step 2 — Parameters (optional)</h3>
     <p>Three numeric inputs control specific tests. Default values follow NIST recommendations and work well for most inputs — see the <em>Parameters</em> section below for details.</p>
@@ -189,7 +196,7 @@
       <tbody>
         <tr>
           <td>Block M</td><td>128</td><td>8 – 10 000</td>
-          <td><strong>Test 2 (Block Frequency).</strong> Size of each block in bits. The proportion of 1s per block should be ≈ 0.5 for a random sequence. NIST recommends M ≥ 20 and at least 100 complete blocks, so the sequence should contain ≥ 100 × M bits.</td>
+          <td><strong>Test 2 (Block Frequency).</strong> Size of each block in bits. The proportion of 1s per block should be ≈ 0.5 for a random sequence. NIST recommends \( M \ge 20 \) and at least 100 complete blocks, so the sequence should contain ≥ \( 100 \times M \) bits.</td>
         </tr>
         <tr>
           <td>Template m</td><td>9</td><td>2 – 10</td>
@@ -197,7 +204,7 @@
         </tr>
         <tr>
           <td>LC block</td><td>500</td><td>50 – 5 000</td>
-          <td><strong>Test 9 (Linear Complexity).</strong> Block length for Berlekamp–Massey analysis. Each block is tested independently. NIST recommends 500 ≤ M ≤ 5 000. Smaller values increase block count but reduce sensitivity; larger values detect longer linear structure.</td>
+          <td><strong>Test 9 (Linear Complexity).</strong> Block length for Berlekamp–Massey analysis. Each block is tested independently. NIST recommends \( 500 \le M \le 5\,000 \). Smaller values increase block count but reduce sensitivity; larger values detect longer linear structure.</td>
         </tr>
       </tbody>
     </table>
@@ -214,15 +221,15 @@
         <tr><td>3</td><td>Runs</td><td>Too many or too few transitions between 0-runs and 1-runs. Includes a mandatory pre-test on the proportion of 1s.</td><td>100</td></tr>
         <tr><td>4</td><td>Longest Run of Ones</td><td>Unusually long consecutive runs of 1s inside M-bit blocks. Block size M is chosen automatically based on n.</td><td>128</td></tr>
         <tr><td>5</td><td>Binary Matrix Rank</td><td>Linear dependence among sub-sequences via GF(2) Gaussian elimination on 32×32 binary matrices.</td><td>1 024</td></tr>
-        <tr><td>6</td><td>Non-Overlapping Template</td><td>Excess occurrences of the aperiodic m-bit pattern (Template m). Window advances by m after each match.</td><td>8×m</td></tr>
+        <tr><td>6</td><td>Non-Overlapping Template</td><td>Excess occurrences of the aperiodic m-bit pattern (Template m). Window advances by m after each match.</td><td>\( 8m \)</td></tr>
         <tr><td>7</td><td>Overlapping Template</td><td>Excess overlapping occurrences of the all-ones m-bit pattern. Sliding window of step 1.</td><td>1 032</td></tr>
         <tr><td>8</td><td>Maurer's Universal</td><td>Compressibility of the sequence — predictable sequences can be compressed; random ones cannot.</td><td>~3 850</td></tr>
         <tr><td>9</td><td>Linear Complexity</td><td>LFSR length per block (Berlekamp–Massey algorithm) vs the expected value for random data (LC block parameter).</td><td>LC block</td></tr>
         <tr><td>10</td><td>Serial</td><td>Unequal frequency of all overlapping 3-bit patterns (circular extension). Reports two p-values.</td><td>100</td></tr>
         <tr><td>11</td><td>Approximate Entropy</td><td>Difference between m-bit and (m+1)-bit overlapping pattern frequencies. Low ApEn = high predictability.</td><td>100</td></tr>
         <tr><td>12</td><td>Cumulative Sums</td><td>Maximum deviation of the partial-sum random walk from zero — both forward and backward passes.</td><td>100</td></tr>
-        <tr><td>13</td><td>Random Excursions</td><td>Number of visits to each state (±1…±4) within excursion cycles of the partial-sum walk. Requires J ≥ 500 cycles; expected J ≈ √(2n/π).</td><td>~500 000</td></tr>
-        <tr><td>14</td><td>Random Excursions Variant</td><td>Total visit count to states ±1…±9 across the full walk. Requires J ≥ 500 zero crossings; expected J ≈ √(2n/π).</td><td>~500 000</td></tr>
+        <tr><td>13</td><td>Random Excursions</td><td>Number of visits to each state (\( \pm 1 \dots \pm 4 \)) within excursion cycles of the partial-sum walk. Requires \( J \ge 500 \) cycles; expected \( \mathbb{E}[J] \approx \sqrt{2n/\pi} \).</td><td>~500 000</td></tr>
+        <tr><td>14</td><td>Random Excursions Variant</td><td>Total visit count to states \( \pm 1 \dots \pm 9 \) across the full walk. Requires \( J \ge 500 \) zero crossings; expected \( \mathbb{E}[J] \approx \sqrt{2n/\pi} \).</td><td>~500 000</td></tr>
       </tbody>
     </table>
   </div>
@@ -232,17 +239,17 @@
     <h2><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg> Reading Results</h2>
 
     <h3>Status badges</h3>
-    <p><strong>PASS (green)</strong> — p-value ≥ 0.01. No statistical evidence of non-randomness at the 1% significance level.<br>
-    <strong>FAIL (red)</strong> — p-value &lt; 0.01. The sequence exhibits a pattern this test is sensitive to.<br>
+    <p><strong>PASS (green)</strong> — \( p\text{-value} \ge 0.01 \). No statistical evidence of non-randomness at the 1% significance level.<br>
+    <strong>FAIL (red)</strong> — \( p\text{-value} < 0.01 \). The sequence exhibits a pattern this test is sensitive to.<br>
     <strong>N/A (grey)</strong> — The sequence is too short to run this test. The panel shows the exact minimum required.</p>
 
     <h3>Multiple p-values</h3>
-    <p>Test 10 (Serial) reports two p-values. Tests 13 and 14 report one p-value per state (±1…±4 and ±1…±9 respectively). The overall PASS/FAIL badge for these tests uses the <em>minimum</em> p-value across all states — the most conservative approach.</p>
+    <p>Test 10 (Serial) reports two p-values. Tests 13 and 14 report one p-value per state (\( \pm 1 \dots \pm 4 \) and \( \pm 1 \dots \pm 9 \) respectively). The overall PASS/FAIL badge for these tests uses the <em>minimum</em> p-value across all states — the most conservative approach.</p>
 
     <h3>How conclusive is a failure?</h3>
     <div class="highlight-box callout-warn">
-      <div class="callout-icon">⚠️</div>
-      <p>For any truly random sequence, approximately <strong>1 in 100 tests</strong> will fail at α = 0.01 purely by chance. A single isolated failure is not conclusive. Consistent failures across multiple tests — especially Tests 1, 2, or 3 — or a p-value extremely close to 0 carry significantly more weight.</p>
+      <div class="callout-icon"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></div>
+      <p>For any truly random sequence, approximately <strong>1 in 100 tests</strong> will fail at \( \alpha = 0.01 \) purely by chance. A single isolated failure is not conclusive. Consistent failures across multiple tests — especially Tests 1, 2, or 3 — or a p-value extremely close to 0 carry significantly more weight.</p>
     </div>
 
     <h3>p-value very close to 1.0</h3>
@@ -312,8 +319,8 @@
       <div class="doc-section">
         <h2>Technical Limitations</h2>
         <ul>
-          <li>Tests 13 &amp; 14 need ≥ 500 000 bits in practice. The expected cycle count is J ≈ √(2n/π): for n = 10 000 this gives J ≈ 80; for n = 500 000 this gives J ≈ 564.</li>
-          <li>Test 8 (Maurer) needs ≥ 904 960 bits for the minimum L=6 parameter level.</li>
+          <li>Tests 13 &amp; 14 need ≥ 500 000 bits in practice. The expected cycle count is \( \mathbb{E}[J] \approx \sqrt{2n/\pi} \): for \( n = 10\,000 \) this gives \( \mathbb{E}[J] \approx 80 \); for \( n = 500\,000 \) this gives \( \mathbb{E}[J] \approx 564 \).</li>
+          <li>Test 8 (Maurer) needs ≥ 904 960 bits for the minimum \( L=6 \) parameter level.</li>
           <li>NIST SP 800-22 Section 4 recommends testing ≥ 55 sequences of 1 000 000 bits each for a formal generator evaluation. This tool analyses one sequence at a time.</li>
           <li>The Generate buttons use <code>Math.random()</code> — not a cryptographically secure RNG. Use for demonstration only.</li>
         </ul>
