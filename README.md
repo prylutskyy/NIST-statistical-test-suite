@@ -24,6 +24,8 @@ This tool is useful for:
 | **All 15 NIST tests** | Tests 1–15 per NIST SP 800-22 Rev 1a, verified against Appendix B reference vectors |
 | **Apple-style UI** | Sidebar + animated carousel panel, dark/light mode |
 | **File loading** | Drag-and-drop or file picker; accepts binary, Base64-encoded, or plain 0/1 text |
+| **PDF Audit Reports** | Exports a formal, print-ready mathematical PDF report with headless charts |
+| **Data Fingerprinting** | Computes dual SHA-256 hashes (original file & ASCII sequence) for audit integrity |
 | **Base64 pipeline** | Decodes Base64 → raw bytes → bits (MSB first); Base64 chars are never analysed directly as bits |
 | **Configurable parameters** | Block size (M), template length (m), LC block size — all adjustable |
 | **Web Workers** | Mathematical analysis is offloaded to a background thread to keep the UI fully responsive |
@@ -242,6 +244,8 @@ Note: the naive claim "L ≤ ceil(n/2)" is **false** for individual sequences. F
 ## Changelog
 
 ### 2026-07-29
+- **Added:** Formal PDF Audit Reports. Exports a multi-page, print-ready document containing the overall verdict, summary table, and mathematical parameters for all 15 tests, complete with high-contrast, headless Chart.js rendering (via pdfmake).
+- **Added:** Dual SHA-256 Fingerprinting. To guarantee audit integrity, the suite now records and displays both the hash of the *Original Source File* (via `crypto.subtle.digest` on the raw ArrayBuffer) and the hash of the *Analyzed ASCII Sequence*.
 - **Refactor:** Migrated heavy statistical calculations (15 NIST tests) to run asynchronously in a Web Worker, preventing UI freezing and keeping the interface responsive even for multi-million-bit sequences.
 - **Added:** Smooth pulsing inline loading state during analysis.
 
@@ -276,4 +280,4 @@ During this verification process, critical mathematical nuances were addressed�
 
 ---
 
-*No external libraries were used beyond Chart.js for visualisation.*
+*No external libraries were used beyond Chart.js (for visualisation) and pdfmake (for PDF export).*
