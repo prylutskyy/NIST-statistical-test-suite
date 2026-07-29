@@ -1092,3 +1092,38 @@ code {
   50% { transform: translate(5%, 10%) scale(1.1); }
   100% { transform: translate(-5%, 5%) scale(0.9); }
 }
+
+/* ── Inline SVG Icons ──────────────────────────────────────────────────────── */
+svg.icon {
+  width: 1.2em;
+  height: 1.2em;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  display: inline-block;
+  vertical-align: -0.15em;
+}
+.theme-toggle svg {
+  vertical-align: middle;
+  width: 18px;
+  height: 18px;
+}
+.input-tab svg.icon, .btn-secondary svg.icon, .btn-primary svg.icon, summary svg.icon, .doc-section a svg.icon {
+  margin-right: 6px;
+}
+.callout-icon svg.icon {
+  width: 1.5em;
+  height: 1.5em;
+  vertical-align: middle;
+}
+.fc-icon svg.icon {
+  width: 28px;
+  height: 28px;
+  vertical-align: middle;
+}
+.hero-icon svg.icon {
+  width: 64px;
+  height: 64px;
+}

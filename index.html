@@ -21,7 +21,7 @@
     <button class="nav-pill"        onclick="showPage('help',this)">Help</button>
     <button class="nav-pill"        onclick="showPage('about',this)">About</button>
   </nav>
-  <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" title="Toggle light/dark">🌙</button>
+  <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" title="Toggle light/dark"><svg class="icon icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></button>
 </header>
 
 
@@ -31,9 +31,9 @@
   <!-- Input -->
   <div class="input-section">
     <div class="input-tabs">
-      <button class="input-tab active" onclick="switchInputTab('file', this)">📂 File Upload</button>
-      <button class="input-tab" onclick="switchInputTab('text', this)">📝 Paste Text</button>
-      <button class="input-tab" onclick="switchInputTab('gen', this)">🎲 Generate</button>
+      <button class="input-tab active" onclick="switchInputTab('file', this)"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"></path></svg> File Upload</button>
+      <button class="input-tab" onclick="switchInputTab('text', this)"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><line x1="10" y1="9" x2="8" y2="9"></line></svg> Paste Text</button>
+      <button class="input-tab" onclick="switchInputTab('gen', this)"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72Z"></path><path d="m14 7 3 3"></path><path d="M5 6v4"></path><path d="M19 14v4"></path><path d="M10 2v2"></path><path d="M7 8H3"></path><path d="M21 16h-4"></path><path d="M11 3H9"></path></svg> Generate</button>
       <div class="input-tab-indicator" id="tabIndicator"></div>
     </div>
 
@@ -56,9 +56,9 @@
     <div class="input-tab-content" id="tab-gen">
       <div class="controls controls-gen" style="justify-content: center;">
         <span class="gen-label">Generate random sequence:</span>
-        <button class="btn-secondary" onclick="generateRandom(1000)">&#127922; 1 000 bits</button>
-        <button class="btn-secondary" onclick="generateRandom(10000)">&#127922; 10 000 bits</button>
-        <button class="btn-secondary" onclick="generateRandom(1000000)">&#127922; 1 000 000 bits</button>
+        <button class="btn-secondary" onclick="generateRandom(1000)"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72Z"></path><path d="m14 7 3 3"></path><path d="M5 6v4"></path><path d="M19 14v4"></path><path d="M10 2v2"></path><path d="M7 8H3"></path><path d="M21 16h-4"></path><path d="M11 3H9"></path></svg> 1 000 bits</button>
+        <button class="btn-secondary" onclick="generateRandom(10000)"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72Z"></path><path d="m14 7 3 3"></path><path d="M5 6v4"></path><path d="M19 14v4"></path><path d="M10 2v2"></path><path d="M7 8H3"></path><path d="M21 16h-4"></path><path d="M11 3H9"></path></svg> 10 000 bits</button>
+        <button class="btn-secondary" onclick="generateRandom(1000000)"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72Z"></path><path d="m14 7 3 3"></path><path d="M5 6v4"></path><path d="M19 14v4"></path><path d="M10 2v2"></path><path d="M7 8H3"></path><path d="M21 16h-4"></path><path d="M11 3H9"></path></svg> 1 000 000 bits</button>
       </div>
     </div>
 
@@ -67,7 +67,7 @@
 
     <!-- Advanced Settings & Run -->
     <details class="advanced-settings">
-      <summary>⚙️ Advanced Parameters</summary>
+      <summary><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg> Advanced Parameters</summary>
       <div class="controls" style="margin-top:12px; justify-content:center;">
         <label class="param-label">Block M <span>Test 2</span><input type="number" id="blockSize" value="128" min="8" max="10000"></label>
         <label class="param-label">Template m <span>T6&7</span><input type="number" id="tmplSize" value="9" min="2" max="10"></label>
@@ -76,7 +76,7 @@
     </details>
 
     <div class="run-section">
-      <button id="runBtn" class="btn-primary btn-run" onclick="runAll()" disabled>&#9654; Run All Tests</button>
+      <button id="runBtn" class="btn-primary btn-run" onclick="runAll()" disabled><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> Run All Tests</button>
     </div>
   </div>
 
@@ -110,11 +110,11 @@
       <nav class="doc-toc">
         <h4>Contents</h4>
         <ul>
-          <li><a href="#help-quick-start">▶ Quick Start</a></li>
-          <li><a href="#help-formats">📂 File Formats</a></li>
-          <li><a href="#help-params">⚙ Parameters</a></li>
-          <li><a href="#help-tests">📊 All 14 Tests</a></li>
-          <li><a href="#help-results">🔍 Reading Results</a></li>
+          <li><a href="#help-quick-start"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> Quick Start</a></li>
+          <li><a href="#help-formats"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"></path></svg> File Formats</a></li>
+          <li><a href="#help-params"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg> Parameters</a></li>
+          <li><a href="#help-tests"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="18" y="3" width="4" height="18"></rect><rect x="10" y="8" width="4" height="13"></rect><rect x="2" y="13" width="4" height="8"></rect></svg> All 14 Tests</a></li>
+          <li><a href="#help-results"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg> Reading Results</a></li>
         </ul>
       </nav>
     </aside>
@@ -123,10 +123,10 @@
 
       <!-- Quick start -->
       <div class="doc-section" id="help-quick-start">
-    <h2>▶ Quick Start</h2>
+    <h2><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> Quick Start</h2>
     <p>This tool runs all 14 statistical tests defined in <strong>NIST SP 800-22 Rev 1a</strong> on a binary sequence. Each test produces a <em>p-value</em>. A p-value below <code>α = 0.01</code> indicates evidence of <strong>non-randomness</strong>.</p>
     <div class="highlight-box callout-tip">
-      <div class="callout-icon">💡</div>
+      <div class="callout-icon"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.9 1.2 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg></div>
       <p><strong>Three steps:</strong> ① Load a sequence (file, paste, or generate) → ② Adjust parameters if needed → ③ Click <em>Run All Tests</em></p>
     </div>
 
@@ -148,7 +148,7 @@
 
   <!-- File formats -->
   <div class="doc-section" id="help-formats">
-    <h2>📂 Supported File Formats</h2>
+    <h2><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"></path></svg> Supported File Formats</h2>
     <p>Any file can be loaded. The pipeline detects the correct decoding mode in this order:</p>
     <table class="param-table">
       <thead><tr><th>Format</th><th>Detection</th><th>How it is decoded</th></tr></thead>
@@ -176,14 +176,14 @@
       </tbody>
     </table>
     <div class="highlight-box callout-info">
-      <div class="callout-icon">ℹ️</div>
+      <div class="callout-icon"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></div>
       <p><strong>Byte-to-bit convention (MSB first):</strong> byte <code>0xAB</code> = 10101011₂ → bit string <code>10101011</code>. This matches the NIST SP 800-22 convention used in all 14 tests.</p>
     </div>
   </div>
 
   <!-- Parameters -->
   <div class="doc-section" id="help-params">
-    <h2>⚙ Parameters</h2>
+    <h2><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg> Parameters</h2>
     <table class="param-table">
       <thead><tr><th>Parameter</th><th>Default</th><th>Range</th><th>Description</th></tr></thead>
       <tbody>
@@ -205,7 +205,7 @@
 
   <!-- All 14 tests -->
   <div class="doc-section" id="help-tests">
-    <h2>📊 All 14 Tests at a Glance</h2>
+    <h2><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="18" y="3" width="4" height="18"></rect><rect x="10" y="8" width="4" height="13"></rect><rect x="2" y="13" width="4" height="8"></rect></svg> All 14 Tests at a Glance</h2>
     <table class="test-table">
       <thead><tr><th>#</th><th>Name</th><th>What it detects</th><th>Min bits</th></tr></thead>
       <tbody>
@@ -229,7 +229,7 @@
 
   <!-- Reading results -->
   <div class="doc-section" id="help-results">
-    <h2>🔍 Reading Results</h2>
+    <h2><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg> Reading Results</h2>
 
     <h3>Status badges</h3>
     <p><strong>PASS (green)</strong> — p-value ≥ 0.01. No statistical evidence of non-randomness at the 1% significance level.<br>
@@ -264,7 +264,7 @@
 
       <div class="doc-section">
         <div class="about-hero">
-          <span class="hero-icon">📊</span>
+          <span class="hero-icon"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="18" y="3" width="4" height="18"></rect><rect x="10" y="8" width="4" height="13"></rect><rect x="2" y="13" width="4" height="8"></rect></svg></span>
           <h2 class="gradient-text">NIST SP 800-22 Test Suite</h2>
           <p>A complete, client-side implementation of the NIST statistical randomness test suite — running entirely in your browser with no server, no data upload, and no external dependencies beyond Chart.js.</p>
         </div>
@@ -292,19 +292,19 @@
       </div>
 
       <div class="doc-section">
-        <h2>✨ Key Features</h2>
+        <h2><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg> Key Features</h2>
         <div class="feature-grid">
-          <div class="feature-card"><span class="fc-icon">🔒</span><h4>Privacy by design</h4><p>All computation runs in your browser. Your sequence never leaves your device — no server, no logging.</p></div>
-          <div class="feature-card"><span class="fc-icon">📊</span><h4>All 14 NIST tests</h4><p>Complete SP 800-22 coverage with per-test charts, p-values, and statistics.</p></div>
-          <div class="feature-card"><span class="fc-icon">📂</span><h4>Flexible input</h4><p>Drag-and-drop or file picker. Accepts binary files, Base64-encoded data, or plain 0/1 text — format detected automatically.</p></div>
-          <div class="feature-card"><span class="fc-icon">⚙</span><h4>Configurable</h4><p>Block size, template length, and LC block size are all adjustable per NIST recommendations.</p></div>
-          <div class="feature-card"><span class="fc-icon">📚</span><h4>Specification-accurate</h4><p>Algorithms follow NIST SP 800-22 Rev 1a exactly, verified against Appendix B reference vectors.</p></div>
-          <div class="feature-card"><span class="fc-icon">✅</span><h4>182 unit tests</h4><p>123 NIST statistical tests + 59 file-pipeline tests. Run with <code>node tests/nist.test.js</code> and <code>node tests/pipeline.test.js</code>.</p></div>
+          <div class="feature-card"><span class="fc-icon"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></span><h4>Privacy by design</h4><p>All computation runs in your browser. Your sequence never leaves your device — no server, no logging.</p></div>
+          <div class="feature-card"><span class="fc-icon"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="18" y="3" width="4" height="18"></rect><rect x="10" y="8" width="4" height="13"></rect><rect x="2" y="13" width="4" height="8"></rect></svg></span><h4>All 14 NIST tests</h4><p>Complete SP 800-22 coverage with per-test charts, p-values, and statistics.</p></div>
+          <div class="feature-card"><span class="fc-icon"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"></path></svg></span><h4>Flexible input</h4><p>Drag-and-drop or file picker. Accepts binary files, Base64-encoded data, or plain 0/1 text — format detected automatically.</p></div>
+          <div class="feature-card"><span class="fc-icon"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg></span><h4>Configurable</h4><p>Block size, template length, and LC block size are all adjustable per NIST recommendations.</p></div>
+          <div class="feature-card"><span class="fc-icon"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg></span><h4>Specification-accurate</h4><p>Algorithms follow NIST SP 800-22 Rev 1a exactly, verified against Appendix B reference vectors.</p></div>
+          <div class="feature-card"><span class="fc-icon"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></span><h4>182 unit tests</h4><p>123 NIST statistical tests + 59 file-pipeline tests. Run with <code>node tests/nist.test.js</code> and <code>node tests/pipeline.test.js</code>.</p></div>
         </div>
       </div>
 
       <div class="doc-section">
-        <h2>📂 File Loading Pipeline</h2>
+        <h2><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"></path></svg> File Loading Pipeline</h2>
         <p>Any file can be loaded via drag-and-drop or the file picker. The pipeline determines the correct decoding mode automatically:</p>
         <ul>
           <li><strong>Binary files</strong> (.bin, .exe, .jpg, .pdf, .gz, …) — read as raw bytes; each byte expands to 8 bits, MSB first. Never interpreted as text.</li>
