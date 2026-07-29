@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="description" content="Free online NIST SP 800-22 Randomness Test Suite. A fast, fully client-side cryptographic statistical testing tool for security researchers and developers.">
   <meta name="keywords" content="NIST test, NIST test suite, randomness test, SP 800-22, statistical test suite, cryptography, random number generator, TRNG, PRNG">
-  <title>NIST SP 800-22 — Randomness Test Suite</title>
+  <title>NIST Test Suite | SP 800-22 Statistical Tests</title>
   <link rel="stylesheet" href="css/styles.css">
   
   <!-- KaTeX for math rendering -->
@@ -24,7 +24,7 @@
 <div class="ambient-blob blob-2"></div>
 <!-- ── Top bar ──────────────────────────────────────────────────────────────── -->
 <header class="topbar" style="position: sticky; top: 0; z-index: 100; backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); background: color-mix(in srgb, var(--bg2) 80%, transparent);">
-  <h1 class="topbar-brand">NIST SP 800-22 <span>Randomness Test Suite</span></h1>
+  <h1 class="topbar-brand">NIST <span>Test Suite</span></h1>
   <nav class="nav-pills">
     <button class="nav-pill active" onclick="showPage('tests',this)">Tests</button>
     <button class="nav-pill"        onclick="showPage('help',this)">Help</button>
@@ -133,7 +133,7 @@
       <!-- Quick start -->
       <div class="doc-section" id="help-quick-start">
     <h2><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> Quick Start</h2>
-    <p>This tool runs all 14 statistical tests defined in <strong>NIST SP 800-22 Rev 1a</strong> on a binary sequence. Each test produces a <em>p-value</em>. A p-value below <code>α = 0.01</code> indicates evidence of <strong>non-randomness</strong>.</p>
+    <p>This tool runs all 15 statistical tests defined in <strong>NIST SP 800-22 Rev 1a</strong> on a binary sequence. Each test produces a <em>p-value</em>. A p-value below <code>α = 0.01</code> indicates evidence of <strong>non-randomness</strong>.</p>
     <div class="highlight-box callout-tip">
       <div class="callout-icon"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.9 1.2 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg></div>
       <p><strong>Three steps:</strong> ① Load a sequence (file, paste, or generate) → ② Adjust parameters if needed → ③ Click <em>Run All Tests</em></p>
@@ -146,7 +146,7 @@
       <li><strong>Paste</strong> — type or paste a string of <code>0</code>s and <code>1</code>s directly into the text area. Spaces, tabs, and newlines are ignored.</li>
       <li><strong>Generate</strong> — click <em>1 000 bits</em> or <em>10 000 bits</em> to fill the text area with a pseudo-random sequence for demonstration.</li>
     </ul>
-    <p>Minimum length: <strong>100 bits</strong>. NIST recommends at least <strong>1 000 bits</strong>. Tests 13 &amp; 14 require <strong>≈ 500 000+ bits</strong> in practice (\( J \ge 500 \) zero crossings; expected \( \mathbb{E}[J] \approx \sqrt{2n/\pi} \)).</p>
+    <p>Minimum length: <strong>100 bits</strong>. NIST recommends at least <strong>1 000 bits</strong>. Tests 14 &amp; 15 require <strong>≈ 500 000+ bits</strong> in practice (\( J \ge 500 \) zero crossings; expected \( \mathbb{E}[J] \approx \sqrt{2n/\pi} \)).</p>
 
     <h3>Step 2 — Parameters (optional)</h3>
     <p>Three numeric inputs control specific tests. Default values follow NIST recommendations and work well for most inputs — see the <em>Parameters</em> section below for details.</p>
@@ -303,7 +303,7 @@
           <div class="feature-card"><span class="fc-icon"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"></path></svg></span><h4>Flexible input</h4><p>Drag-and-drop or file picker. Accepts binary files, Base64-encoded data, or plain 0/1 text — format detected automatically.</p></div>
           <div class="feature-card"><span class="fc-icon"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg></span><h4>Configurable</h4><p>Block size, template length, and LC block size are all adjustable per NIST recommendations.</p></div>
           <div class="feature-card"><span class="fc-icon"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg></span><h4>Specification-accurate</h4><p>Algorithms follow NIST SP 800-22 Rev 1a exactly, verified against Appendix B reference vectors.</p></div>
-          <div class="feature-card"><span class="fc-icon"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></span><h4>182 unit tests</h4><p>123 NIST statistical tests + 59 file-pipeline tests. Run with <code>node tests/nist.test.js</code> and <code>node tests/pipeline.test.js</code>.</p></div>
+          <div class="feature-card"><span class="fc-icon"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></span><h4>186 unit tests</h4><p>127 NIST statistical tests + 59 file-pipeline tests. Run with <code>node tests/nist.test.js</code> and <code>node tests/pipeline.test.js</code>.</p></div>
         </div>
       </div>
 

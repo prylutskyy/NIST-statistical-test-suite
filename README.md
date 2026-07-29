@@ -1,6 +1,6 @@
-# NIST SP 800-22 — Randomness Test Suite
+# NIST Test Suite | SP 800-22 Statistical Tests
 
-A complete, client-side browser implementation of the **NIST SP 800-22 Rev 1a** statistical test suite for evaluating the randomness of binary sequences. All 14 tests run entirely in your browser — no server, no data upload, no external dependencies beyond Chart.js.
+A complete, client-side browser implementation of the **NIST SP 800-22 Rev 1a** statistical test suite for evaluating the randomness of binary sequences. All 15 tests run entirely in your browser — no server, no data upload, no external dependencies beyond Chart.js.
 
 ---
 
@@ -28,8 +28,8 @@ This tool is useful for:
 | **Configurable parameters** | Block size (M), template length (m), LC block size — all adjustable |
 | **Web Workers** | Mathematical analysis is offloaded to a background thread to keep the UI fully responsive |
 | **Privacy by design** | All computation is local; your data never leaves the browser |
-| **Unit tested** | 182 automated tests (123 NIST + 59 pipeline) — zero external test libraries |
-| **SOLID architecture** | 22 source files across 4 dependency layers; one file per test |
+| **Unit tested** | 186 automated tests (127 NIST + 59 pipeline) — zero external test libraries |
+| **SOLID architecture** | 23 source files across 4 dependency layers; one file per test |
 
 ---
 
@@ -55,7 +55,7 @@ File dropped / selected
             └─ Other → readAsArrayBuffer → bytes → bits
 ```
 
-**Byte-to-bit convention:** MSB first — byte `0xAB` (10101011) produces `10101011`. This matches the NIST SP 800-22 convention used in all 14 tests.
+**Byte-to-bit convention:** MSB first — byte `0xAB` (10101011) produces `10101011`. This matches the NIST SP 800-22 convention used in all 15 tests.
 
 ---
 
@@ -122,7 +122,7 @@ nist/
 └── tests/
     ├── framework.js              # Zero-dependency TAP-compatible test runner
     ├── loader.js                 # VM-based module loader for Node.js testing
-    ├── nist.test.js              # 123 unit tests: all 14 NIST tests + math utils
+    ├── nist.test.js              # 127 unit tests: all 15 NIST tests + math utils
     └── pipeline.test.js          # 59 unit tests: file loading pipeline (binary/Base64)
 ```
 
@@ -146,7 +146,7 @@ ui/carousel.js   ← Layer 4: Apple-style sidebar + panel carousel
 Requires Node.js v14+. No `npm install` needed — zero external dependencies.
 
 ```bash
-# NIST statistical tests (123 tests)
+# NIST statistical tests (127 tests)
 node tests/nist.test.js
 
 # File loading pipeline (59 tests)
@@ -193,7 +193,7 @@ All p-values use either:
 - `erfc(x)` — complementary error function (Abramowitz & Stegun 7.1.26, accuracy < 1.5×10⁻⁷)
 - `Q(a, x)` — regularised upper incomplete gamma function (series expansion for x < a+1, Lentz continued fraction otherwise)
 
-### Random Excursions threshold — Tests 13 & 14
+### Random Excursions threshold — Tests 14 & 15
 
 These two tests operate on the partial-sum random walk S[i] of the input sequence. They require a minimum number of **zero crossings** J.
 
@@ -232,7 +232,7 @@ Note: the naive claim "L ≤ ceil(n/2)" is **false** for individual sequences. F
 
 ## Known Limitations
 
-- **Tests 13 & 14** require J ≥ 500 zero crossings, where J follows the arc-sine distribution with E[J] ≈ √(2n/π). There is no fixed minimum n: at n = 1 000 000 bits, P(J ≥ 500) ≈ 60%; at n = 10 000 bits, P(J ≥ 500) < 1%. NIST Appendix B uses 1 000 000-bit streams. See `INVESTIGATION_REPORT.md` for full analysis.
+- **Tests 14 & 15** require J ≥ 500 zero crossings, where J follows the arc-sine distribution with E[J] ≈ √(2n/π). There is no fixed minimum n: at n = 1 000 000 bits, P(J ≥ 500) ≈ 60%; at n = 10 000 bits, P(J ≥ 500) < 1%. NIST Appendix B uses 1 000 000-bit streams. See `INVESTIGATION_REPORT.md` for full analysis.
 - **Test 8** (Maurer Universal) needs ≥ 904 960 bits for the minimum L = 6 parameter level.
 - This tool analyses a **single sequence**. NIST SP 800-22 Section 4 recommends testing ≥ 55 sequences of 1 000 000 bits each for a formal generator evaluation.
 - The **Generate** buttons use `Math.random()` — not a cryptographically secure RNG. Use for demonstration only.
@@ -242,16 +242,16 @@ Note: the naive claim "L ≤ ceil(n/2)" is **false** for individual sequences. F
 ## Changelog
 
 ### 2026-07-29
-- **Refactor:** Migrated heavy statistical calculations (14 NIST tests) to run asynchronously in a Web Worker, preventing UI freezing and keeping the interface responsive even for multi-million-bit sequences.
+- **Refactor:** Migrated heavy statistical calculations (15 NIST tests) to run asynchronously in a Web Worker, preventing UI freezing and keeping the interface responsive even for multi-million-bit sequences.
 - **Added:** Smooth pulsing inline loading state during analysis.
 
 ### 2026-05-05
-- **Fixed:** Tests 13 & 14 — N/A message corrected from the misleading "Use >= 10 000 bits" to an accurate description referencing the arc-sine distribution, E[J] ≈ √(2n/π), and the NIST official constraint `MAX(0.005·√n, 500)`.
+- **Fixed:** Tests 14 & 15 — N/A message corrected from the misleading "Use >= 10 000 bits" to an accurate description referencing the arc-sine distribution, E[J] ≈ √(2n/π), and the NIST official constraint `MAX(0.005·√n, 500)`.
 - **Fixed:** Unit test `"L ≤ n/2 for random sequences (half-length bound)"` replaced with two mathematically correct tests: (a) `L ≤ n` (Massey 1969 hard bound) and (b) `|L − μ_L| < 5σ` (statistical proximity to expected value). The original claim `L ≤ ceil(n/2)` is false for individual sequences — e.g. [1,1,1,0] gives L = 3 > 2.
 - **Added:** `INVESTIGATION_REPORT.md` — full technical analysis of the J ≥ 500 threshold, arc-sine distribution of zero crossings, and empirical probability tables.
 - **Added:** `tests/pipeline.test.js` — 59 unit tests covering the file-loading pipeline (binary/Base64/plain-text decoding).
 - **Added:** File loading via drag-and-drop and file picker; supports binary files, Base64-encoded data, and plain 0/1 text — format detected automatically.
-- **Added:** Generate button for 1 000 000-bit sequences (needed for tests 13 & 14 to have a reasonable chance of producing J ≥ 500).
+- **Added:** Generate button for 1 000 000-bit sequences (needed for Tests 14 & 15 to have a reasonable chance of producing J ≥ 500).
 - **Added:** Help page, About page with authorship notes.
 - **Added:** Dark/light mode toggle.
 - **Added:** Apple-style carousel UI — sidebar with per-test indicator dots and animated panel transitions.
