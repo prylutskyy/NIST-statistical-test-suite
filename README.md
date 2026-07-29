@@ -237,7 +237,7 @@ Note: the naive claim "L ≤ ceil(n/2)" is **false** for individual sequences. F
 - **Tests 14 & 15** require J ≥ 500 zero crossings, where J follows the arc-sine distribution with E[J] ≈ √(2n/π). There is no fixed minimum n: at n = 1 000 000 bits, P(J ≥ 500) ≈ 60%; at n = 10 000 bits, P(J ≥ 500) < 1%. NIST Appendix B uses 1 000 000-bit streams. See `INVESTIGATION_REPORT.md` for full analysis.
 - **Test 8** (Maurer Universal) needs ≥ 904 960 bits for the minimum L = 6 parameter level.
 - This tool analyses a **single sequence**. NIST SP 800-22 Section 4 recommends testing ≥ 55 sequences of 1 000 000 bits each for a formal generator evaluation.
-- The **Generate** buttons use `Math.random()` — not a cryptographically secure RNG. Use for demonstration only.
+- The **Generate** buttons use `window.crypto.getRandomValues()` (a cryptographically secure PRNG provided by the browser).
 
 ---
 

@@ -101,9 +101,24 @@ async function runAll() {
 
 function generateRandom(len) {
   window.currentOriginalFileHash = null; // Clear file hash since this is generated
+  var byteLen = Math.ceil(len / 8);
+  var buf = new Uint8Array(byteLen);
+  
+  // crypto.getRandomValues has a max limit of 65536 bytes per call
+  var MAX_BYTES = 65536;
+  for (var offset = 0; offset < byteLen; offset += MAX_BYTES) {
+    var chunk = new Uint8Array(Math.min(MAX_BYTES, byteLen - offset));
+    window.crypto.getRandomValues(chunk);
+    buf.set(chunk, offset);
+  }
+  
   var bits = [];
-  for (var i = 0; i < len; i++) bits.push(Math.random() < 0.5 ? 1 : 0);
-  document.getElementById('binInput').value         = bits.join('');
+  for (var i = 0; i < buf.length && bits.length < len; i++) {
+    for (var j = 7; j >= 0 && bits.length < len; j--) {
+      bits.push((buf[i] >> j) & 1);
+    }
+  }
+  document.getElementById('binInput').value = bits.join('');
   document.getElementById('inputError').textContent  = '';
   document.getElementById('inputInfo').textContent   = '';
   

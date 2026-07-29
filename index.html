@@ -303,7 +303,7 @@
       <div class="doc-section">
         <h2>Architecture &amp; Vision</h2>
         <p>Statistical randomness testing is a foundational requirement in cryptography, but traditional tools are often cumbersome, requiring complex CLI setups or backend servers. This project brings the complete NIST SP 800-22 battery of tests directly into the browser.</p>
-        <p>Designed for security researchers, cryptographers, and educators, the application runs entirely client-side. This ensures zero latency, strict data privacy, and immediate visual feedback without ever transmitting sensitive bit sequences over a network.</p>
+        <p>Designed for security researchers, cryptographers, and educators, the application runs entirely client-side. This ensures zero latency, strict data privacy, and immediate visual feedback without ever transmitting sensitive bit sequences over a network. The built-in generator uses the browser's native cryptographically secure PRNG (<code>window.crypto.getRandomValues()</code>).</p>
       </div>
 
       <div class="doc-section">
@@ -336,7 +336,6 @@
           <li>Tests 14 &amp; 15 need ≥ 500 000 bits in practice. The expected cycle count is \( \mathbb{E}[J] \approx \sqrt{2n/\pi} \): for \( n = 10\,000 \) this gives \( \mathbb{E}[J] \approx 80 \); for \( n = 500\,000 \) this gives \( \mathbb{E}[J] \approx 564 \).</li>
           <li>Test 9 (Maurer) needs ≥ 904 960 bits for the minimum \( L=6 \) parameter level.</li>
           <li>NIST SP 800-22 Section 4 recommends testing ≥ 55 sequences of 1 000 000 bits each for a formal generator evaluation. This tool analyses one sequence at a time.</li>
-          <li>The Generate buttons use <code>Math.random()</code> — not a cryptographically secure RNG. Use for demonstration only.</li>
         </ul>
       </div>
 
