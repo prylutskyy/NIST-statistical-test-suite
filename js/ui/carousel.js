@@ -494,8 +494,10 @@ function _makeSerial2Chart(el, cid, r) {
 function toggleTheme() {
   var html = document.documentElement;
   var isDark = html.getAttribute('data-theme') === 'dark';
-  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  var newTheme = isDark ? 'light' : 'dark';
+  html.setAttribute('data-theme', newTheme);
   document.getElementById('themeBtn').textContent = isDark ? '🌙' : '☀️';
+  localStorage.setItem('nist-theme', newTheme);
 
   // Re-render charts with updated colors
   if (_results.length > 0) {
@@ -509,7 +511,8 @@ function showPage(name, btn) {
   document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
   document.querySelectorAll('.nav-pill').forEach(function(b) { b.classList.remove('active'); });
   document.getElementById('page-' + name).classList.add('active');
-  btn.classList.add('active');
+  if (btn) btn.classList.add('active');
+  localStorage.setItem('nist-page', name);
 }
 
 // ── Initialise ────────────────────────────────────────────────────────────────
@@ -517,5 +520,21 @@ function showPage(name, btn) {
 var _lastParams = {};
 
 document.addEventListener('DOMContentLoaded', function() {
+  // Restore theme
+  var savedTheme = localStorage.getItem('nist-theme');
+  if (savedTheme) {
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    document.getElementById('themeBtn').textContent = savedTheme === 'light' ? '🌙' : '☀️';
+  }
+
+  // Restore page
+  var savedPage = localStorage.getItem('nist-page');
+  if (savedPage && ['tests', 'help', 'about'].indexOf(savedPage) !== -1) {
+    var btn = document.querySelector(".nav-pill[onclick*=\"'" + savedPage + "'\"]");
+    if (btn) {
+      showPage(savedPage, btn);
+    }
+  }
+
   buildCarousel();
 });
