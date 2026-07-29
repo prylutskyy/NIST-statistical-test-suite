@@ -258,79 +258,98 @@
 
 <!-- ════════════════════════════════ ABOUT ═══════════════════════════════════ -->
 <div id="page-about" class="page">
-<div class="doc-page">
+  <div class="about-layout">
+    <div class="doc-page glass-panel">
 
-  <div class="doc-section">
-    <div class="about-hero">
-      <span class="hero-icon">📊</span>
-      <h2>NIST SP 800-22 Test Suite</h2>
-      <p>A complete, client-side implementation of the NIST statistical randomness test suite — running entirely in your browser with no server, no data upload, and no external dependencies beyond Chart.js.</p>
+      <div class="doc-section">
+        <div class="about-hero">
+          <span class="hero-icon">📊</span>
+          <h2 class="gradient-text">NIST SP 800-22 Test Suite</h2>
+          <p>A complete, client-side implementation of the NIST statistical randomness test suite — running entirely in your browser with no server, no data upload, and no external dependencies beyond Chart.js.</p>
+        </div>
+        <div class="tag-row">
+          <span class="tag">NIST SP 800-22 Rev 1a</span>
+          <span class="tag">14 statistical tests</span>
+          <span class="tag">Client-side only</span>
+          <span class="tag">No data leaves your browser</span>
+          <span class="tag">SOLID architecture</span>
+          <span class="tag">182 unit tests</span>
+          <span class="tag">Binary &amp; Base64 input</span>
+        </div>
+      </div>
+
+      <div class="doc-section">
+        <h2>🎯 Purpose</h2>
+        <p>Randomness is a foundational requirement in cryptography, secure communications, and scientific research. A sequence that <em>appears</em> random may contain detectable statistical patterns — patterns that can be exploited by an adversary or reveal flaws in a random number generator.</p>
+        <p>This tool makes the NIST SP 800-22 battery of tests accessible for:</p>
+        <ul>
+          <li><strong>Security researchers</strong> validating hardware TRNGs and software PRNGs before deployment.</li>
+          <li><strong>Students and educators</strong> in cryptography or statistics — visual charts make abstract concepts tangible.</li>
+          <li><strong>Developers</strong> performing acceptance testing on entropy sources.</li>
+          <li><strong>Anyone curious</strong> about whether a given bit sequence looks statistically random.</li>
+        </ul>
+      </div>
+
+      <div class="doc-section">
+        <h2>✨ Key Features</h2>
+        <div class="feature-grid">
+          <div class="feature-card"><span class="fc-icon">🔒</span><h4>Privacy by design</h4><p>All computation runs in your browser. Your sequence never leaves your device — no server, no logging.</p></div>
+          <div class="feature-card"><span class="fc-icon">📊</span><h4>All 14 NIST tests</h4><p>Complete SP 800-22 coverage with per-test charts, p-values, and statistics.</p></div>
+          <div class="feature-card"><span class="fc-icon">📂</span><h4>Flexible input</h4><p>Drag-and-drop or file picker. Accepts binary files, Base64-encoded data, or plain 0/1 text — format detected automatically.</p></div>
+          <div class="feature-card"><span class="fc-icon">⚙</span><h4>Configurable</h4><p>Block size, template length, and LC block size are all adjustable per NIST recommendations.</p></div>
+          <div class="feature-card"><span class="fc-icon">📚</span><h4>Specification-accurate</h4><p>Algorithms follow NIST SP 800-22 Rev 1a exactly, verified against Appendix B reference vectors.</p></div>
+          <div class="feature-card"><span class="fc-icon">✅</span><h4>182 unit tests</h4><p>123 NIST statistical tests + 59 file-pipeline tests. Run with <code>node tests/nist.test.js</code> and <code>node tests/pipeline.test.js</code>.</p></div>
+        </div>
+      </div>
+
+      <div class="doc-section">
+        <h2>📂 File Loading Pipeline</h2>
+        <p>Any file can be loaded via drag-and-drop or the file picker. The pipeline determines the correct decoding mode automatically:</p>
+        <ul>
+          <li><strong>Binary files</strong> (.bin, .exe, .jpg, .pdf, .gz, …) — read as raw bytes; each byte expands to 8 bits, MSB first. Never interpreted as text.</li>
+          <li><strong>Base64-encoded files</strong> — detected by character set; decoded to raw bytes via <code>atob()</code> first, then expanded to bits. Base64 characters are <em>never</em> analysed directly as bits.</li>
+          <li><strong>Plain 0/1 text</strong> — used directly as a bit string. Whitespace and line breaks are stripped.</li>
+          <li><strong>Unknown content</strong> — falls back to raw binary mode.</li>
+        </ul>
+        <p>The byte-to-bit convention follows NIST: MSB first. Byte <code>0xAB</code> (10101011₂) → <code>10101011</code>.</p>
+      </div>
+
+      <div class="doc-section">
+        <h2>⚠ Limitations</h2>
+        <ul>
+          <li>Tests 13 &amp; 14 need ≥ 500 000 bits in practice. The expected cycle count is J ≈ √(2n/π): for n = 10 000 this gives J ≈ 80; for n = 500 000 this gives J ≈ 564.</li>
+          <li>Test 8 (Maurer) needs ≥ 904 960 bits for the minimum L=6 parameter level.</li>
+          <li>NIST SP 800-22 Section 4 recommends testing ≥ 55 sequences of 1 000 000 bits each for a formal generator evaluation. This tool analyses one sequence at a time.</li>
+          <li>The Generate buttons use <code>Math.random()</code> — not a cryptographically secure RNG. Use for demonstration only.</li>
+        </ul>
+      </div>
+
+      <div class="doc-section">
+        <h2>🤖 Behind the Scenes</h2>
+        <p>This project was architected and developed by <strong>Alex Prylutskyy</strong>, who orchestrated advanced AI models — <strong>Claude</strong> (by Anthropic) and <strong>Gemini</strong> (by Google).</p>
+        <p>The system architecture, complex statistical algorithms, UI/UX design, and extensive unit testing suite were developed through a modern AI-driven development lifecycle where human software engineering expertise guided AI execution.</p>
+        
+        <div class="creator-card modern-banner">
+          <div class="creator-content">
+            <img src="img/photo_2026-07-29_09-02-27.jpg" alt="Alex Prylutskyy" class="creator-avatar">
+            <div class="creator-info">
+              <h4>Alex Prylutskyy</h4>
+              <p>Software Engineer &middot; Java Developer</p>
+            </div>
+            <a href="https://www.linkedin.com/in/prylutskyy/" target="_blank" class="linkedin-btn">
+              <svg viewBox="0 0 24 24">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zM7.119 20.452H3.554V9h3.565v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+              Connect
+            </a>
+          </div>
+        </div>
+
+        <p style="margin-top:14px;font-size:0.82rem;color:var(--text3)">Rukhin et al. (2010). <em>A Statistical Test Suite for Random and Pseudorandom Number Generators for Cryptographic Applications.</em> NIST Special Publication 800-22 Revision 1a.</p>
+      </div>
+
     </div>
-    <div class="tag-row">
-      <span class="tag">NIST SP 800-22 Rev 1a</span>
-      <span class="tag">14 statistical tests</span>
-      <span class="tag">Client-side only</span>
-      <span class="tag">No data leaves your browser</span>
-      <span class="tag">SOLID architecture</span>
-      <span class="tag">182 unit tests</span>
-      <span class="tag">Binary &amp; Base64 input</span>
-    </div>
   </div>
-
-  <div class="doc-section">
-    <h2>🎯 Purpose</h2>
-    <p>Randomness is a foundational requirement in cryptography, secure communications, and scientific research. A sequence that <em>appears</em> random may contain detectable statistical patterns — patterns that can be exploited by an adversary or reveal flaws in a random number generator.</p>
-    <p>This tool makes the NIST SP 800-22 battery of tests accessible for:</p>
-    <ul>
-      <li><strong>Security researchers</strong> validating hardware TRNGs and software PRNGs before deployment.</li>
-      <li><strong>Students and educators</strong> in cryptography or statistics — visual charts make abstract concepts tangible.</li>
-      <li><strong>Developers</strong> performing acceptance testing on entropy sources.</li>
-      <li><strong>Anyone curious</strong> about whether a given bit sequence looks statistically random.</li>
-    </ul>
-  </div>
-
-  <div class="doc-section">
-    <h2>✨ Key Features</h2>
-    <div class="feature-grid">
-      <div class="feature-card"><span class="fc-icon">🔒</span><h4>Privacy by design</h4><p>All computation runs in your browser. Your sequence never leaves your device — no server, no logging.</p></div>
-      <div class="feature-card"><span class="fc-icon">📊</span><h4>All 14 NIST tests</h4><p>Complete SP 800-22 coverage with per-test charts, p-values, and statistics.</p></div>
-      <div class="feature-card"><span class="fc-icon">📂</span><h4>Flexible input</h4><p>Drag-and-drop or file picker. Accepts binary files, Base64-encoded data, or plain 0/1 text — format detected automatically.</p></div>
-      <div class="feature-card"><span class="fc-icon">⚙</span><h4>Configurable</h4><p>Block size, template length, and LC block size are all adjustable per NIST recommendations.</p></div>
-      <div class="feature-card"><span class="fc-icon">📚</span><h4>Specification-accurate</h4><p>Algorithms follow NIST SP 800-22 Rev 1a exactly, verified against Appendix B reference vectors.</p></div>
-      <div class="feature-card"><span class="fc-icon">✅</span><h4>182 unit tests</h4><p>123 NIST statistical tests + 59 file-pipeline tests. Run with <code>node tests/nist.test.js</code> and <code>node tests/pipeline.test.js</code>.</p></div>
-    </div>
-  </div>
-
-  <div class="doc-section">
-    <h2>📂 File Loading Pipeline</h2>
-    <p>Any file can be loaded via drag-and-drop or the file picker. The pipeline determines the correct decoding mode automatically:</p>
-    <ul>
-      <li><strong>Binary files</strong> (.bin, .exe, .jpg, .pdf, .gz, …) — read as raw bytes; each byte expands to 8 bits, MSB first. Never interpreted as text.</li>
-      <li><strong>Base64-encoded files</strong> — detected by character set; decoded to raw bytes via <code>atob()</code> first, then expanded to bits. Base64 characters are <em>never</em> analysed directly as bits.</li>
-      <li><strong>Plain 0/1 text</strong> — used directly as a bit string. Whitespace and line breaks are stripped.</li>
-      <li><strong>Unknown content</strong> — falls back to raw binary mode.</li>
-    </ul>
-    <p>The byte-to-bit convention follows NIST: MSB first. Byte <code>0xAB</code> (10101011₂) → <code>10101011</code>.</p>
-  </div>
-
-  <div class="doc-section">
-    <h2>⚠ Limitations</h2>
-    <ul>
-      <li>Tests 13 &amp; 14 need ≥ 500 000 bits in practice. The expected cycle count is J ≈ √(2n/π): for n = 10 000 this gives J ≈ 80; for n = 500 000 this gives J ≈ 564.</li>
-      <li>Test 8 (Maurer) needs ≥ 904 960 bits for the minimum L=6 parameter level.</li>
-      <li>NIST SP 800-22 Section 4 recommends testing ≥ 55 sequences of 1 000 000 bits each for a formal generator evaluation. This tool analyses one sequence at a time.</li>
-      <li>The Generate buttons use <code>Math.random()</code> — not a cryptographically secure RNG. Use for demonstration only.</li>
-    </ul>
-  </div>
-
-  <div class="doc-section">
-    <h2>🤖 Authorship</h2>
-    <p>This project was designed and written entirely by <strong>Claude</strong> (claude-sonnet-4-6), an AI assistant made by <a href="https://www.anthropic.com" style="color:var(--accent)">Anthropic</a>. The architecture, statistical algorithms, UI, unit tests, and documentation were produced through an iterative conversation-driven development process.</p>
-    <p>A critical bug was discovered and fixed during development: the Maurer Universal test (Test 8) had an off-by-one error in its EV/VAR lookup table, causing all p-values to be computed against wrong expected values. This was caught by the unit test suite.</p>
-    <p style="margin-top:14px;font-size:0.82rem;color:var(--text3)">Rukhin et al. (2010). <em>A Statistical Test Suite for Random and Pseudorandom Number Generators for Cryptographic Applications.</em> NIST Special Publication 800-22 Revision 1a.</p>
-  </div>
-
-</div>
 </div><!-- /page-about -->
 
 
