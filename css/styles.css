@@ -321,9 +321,9 @@ input[type="number"] {
 /* ── Summary strip ──────────────────────────────────────────────────────────── */
 .summary-strip {
   display: none;
-  max-width: 960px;
-  margin: 0 auto 12px;
-  padding: 0 24px;
+  max-width: 1100px;
+  margin: 0 auto 16px auto;
+  padding: 0;
   align-items: center;
   gap: 10px;
   flex-wrap: wrap;
@@ -355,7 +355,8 @@ input[type="number"] {
   height: calc(100vh - 56px - 180px);
   min-height: 400px;
   max-height: 680px;
-  margin: 0 24px 40px;
+  max-width: 1100px;
+  margin: 0 auto 40px auto;
   gap: 0;
   position: relative;
   overflow: hidden;
@@ -619,18 +620,21 @@ input[type="number"] {
    HELP & ABOUT pages
 ═══════════════════════════════════════════════════════════════════════════════ */
 .doc-layout {
-  display: flex;
-  max-width: 1100px;
+  display: grid;
+  grid-template-columns: 220px minmax(0, 820px) 220px;
+  max-width: 1400px;
   margin: 0 auto;
   gap: 40px;
   padding: 40px 24px 60px;
-  align-items: flex-start;
+  justify-content: center;
 }
 .doc-sidebar {
+  grid-column: 1;
   width: 220px;
   flex-shrink: 0;
   position: sticky;
-  top: 80px;
+  top: 100px;
+  align-self: start;
 }
 .doc-toc h4 {
   font-size: 0.8rem;
@@ -658,8 +662,17 @@ input[type="number"] {
 }
 
 .doc-page { 
-  flex-grow: 1; 
-  max-width: 820px; 
+  grid-column: 2; 
+  width: 100%;
+}
+@media (max-width: 1150px) {
+  .doc-layout {
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    gap: 24px;
+  }
+  .doc-sidebar { position: static; width: 100%; }
 }
 .glass-panel {
   background: color-mix(in srgb, var(--bg2) 60%, transparent);
@@ -770,7 +783,7 @@ code {
 }
 .param-table tr:last-child td, .test-table tr:last-child td { border-bottom: none; }
 .param-table td:first-child { color: var(--accent); font-family: var(--font-mono); white-space: nowrap; font-weight: 500; }
-.param-table td:nth-child(2){ color: var(--warn); font-family: var(--font-mono); white-space: nowrap; font-weight: 500; }
+.param-table td:nth-child(2){ color: var(--warn); font-family: var(--font-mono); font-weight: 500; }
 
 .test-table td:first-child { 
   white-space: nowrap; width: 40px; 
