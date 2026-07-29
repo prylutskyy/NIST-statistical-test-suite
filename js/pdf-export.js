@@ -126,3 +126,165 @@ function generateHeadlessCharts() {
 
   document.body.removeChild(container);
 }
+
+/**
+ * Helper to extract key statistics for the PDF report without HTML.
+ */
+function _getTestParamsForPdf(id, r, params) {
+  if (!r) return [];
+  var p = [];
+  switch(id) {
+    case 1: p.push(['S_obs', r.sObs.toFixed(6)], ['Ones', r.ones], ['Zeros', r.zeros], ['n', r.n]); break;
+    case 2: p.push(['chi²', r.chi2.toFixed(6)], ['Blocks N', r.N], ['Block M', r.M]); break;
+    case 3: p.push(['Total runs Vn', r.Vn], ['pi (1s ratio)', typeof r.pi==='number'?r.pi.toFixed(6):'N/A'], ['n', r.n]); break;
+    case 4: p.push(['chi²', r.chi2.toFixed(6)], ['Blocks N', r.N], ['Block M', r.M]); break;
+    case 5: p.push(['chi²', r.chi2.toFixed(6)], ['Matrices N', r.N]); break;
+    case 6: p.push(['N0', r.stats ? r.stats.N0 : 'N/A'], ['N1', r.stats ? r.stats.N1 : 'N/A']); break;
+    case 7: p.push(['chi²', r.chi2.toFixed(6)], ['Blocks N', r.N], ['Template m', r.m]); break;
+    case 8: p.push(['chi²', r.chi2.toFixed(6)], ['Blocks N', r.N]); break;
+    case 9: p.push(['f_n', r.fn.toFixed(6)], ['E[f_n]', r.EL.toFixed(6)], ['L', r.L]); break;
+    case 10: p.push(['chi²', r.chi2.toFixed(6)], ['Blocks N', r.N], ['Block M', r.M]); break;
+    case 11: p.push(['ΔΨ²', r.dPsi2.toFixed(6)], ['Δ²Ψ²', r.d2Psi2.toFixed(6)], ['m', r.m]); break;
+    case 12: p.push(['ApEn', r.ApEn.toFixed(6)], ['chi²', r.chi2.toFixed(6)], ['m', r.m]); break;
+    case 13: p.push(['max|S| fwd', r.maxF], ['max|S| bwd', r.maxB]); break;
+    case 14: p.push(['J (cycles)', r.J]); break;
+    case 15: p.push(['J (crossings)', r.J]); break;
+  }
+  return p;
+}
+
+/**
+ * Stage 4: Generate the PDF document layout using pdfMake.
+ */
+function generatePdfReport() {
+  if (!window.reportData) return;
+
+  var meta = window.reportData.metadata;
+  var tests = window.reportData.tests;
+  var passRate = (window.reportData.passCount / 15 * 100).toFixed(0) + '%';
+  var overallVerdict = window.reportData.passCount === 15 ? 'PASS (Perfect)' : (window.reportData.passCount >= 14 ? 'PASS (Acceptable)' : 'FAIL');
+
+  var docDef = {
+    info: {
+      title: 'NIST SP 800-22 Report - ' + meta.filename,
+      author: 'NIST Test Suite Simulator',
+      subject: 'Randomness Analysis Report'
+    },
+    pageSize: 'A4',
+    pageMargins: [40, 60, 40, 60],
+    content: [
+      { text: 'NIST SP 800-22 Randomness Analysis Report', style: 'header', alignment: 'center' },
+      { text: 'Generated on: ' + new Date(meta.date).toLocaleString(), alignment: 'center', margin: [0, 0, 0, 20] },
+      
+      // ── Data Fingerprint ──
+      { text: 'Data Fingerprint', style: 'subheader' },
+      {
+        style: 'tableExample',
+        table: {
+          widths: [120, '*'],
+          body: [
+            [{ text: 'Source File', bold: true }, meta.filename],
+            [{ text: 'Length', bold: true }, meta.length + ' bits'],
+            [{ text: 'SHA-256 Hash', bold: true }, { text: meta.sha256, fontSize: 9, font: 'Courier' }],
+            [{ text: 'Snippet (64b)', bold: true }, { text: meta.snippet, fontSize: 9, font: 'Courier' }]
+          ]
+        }
+      },
+
+      // ── Executive Summary ──
+      { text: 'Executive Summary', style: 'subheader', margin: [0, 15, 0, 5] },
+      { text: 'Overall Verdict: ' + overallVerdict, fontSize: 16, bold: true, margin: [0, 0, 0, 5] },
+      { text: 'Tests Passed: ' + window.reportData.passCount + ' / 15 (' + passRate + ')', margin: [0, 0, 0, 15] },
+
+      // ── 15 Tests Summary Table ──
+      {
+        style: 'tableExample',
+        table: {
+          headerRows: 1,
+          widths: ['auto', '*', 'auto', 'auto'],
+          body: [
+            [{ text: '#', style: 'tableHeader' }, { text: 'Test Name', style: 'tableHeader' }, { text: 'p-value', style: 'tableHeader' }, { text: 'Status', style: 'tableHeader' }]
+          ]
+        }
+      }
+    ],
+    styles: {
+      header: { fontSize: 22, bold: true, margin: [0, 0, 0, 10] },
+      subheader: { fontSize: 14, bold: true, margin: [0, 10, 0, 5] },
+      tableExample: { margin: [0, 5, 0, 15] },
+      tableHeader: { bold: true, fontSize: 11, color: 'black', fillColor: '#eeeeee' },
+      passText: { color: 'black' },
+      failText: { color: 'black', bold: true } // Bold indicates fail in b&w
+    },
+    defaultStyle: {
+      fontSize: 10
+    }
+  };
+
+  // Populate summary table
+  tests.forEach(function(t) {
+    var pvStr = t.pValue !== null ? t.pValue.toFixed(6) : 'N/A';
+    if (t.id === 11 || t.id === 14 || t.id === 15) {
+       pvStr = 'Multiple (see details)';
+    }
+    var statusStyle = t.status === 'PASS' ? 'passText' : 'failText';
+    docDef.content[docDef.content.length - 1].table.body.push([
+      t.id.toString(),
+      t.name,
+      { text: pvStr },
+      { text: t.status, style: statusStyle }
+    ]);
+  });
+
+  // ── Detailed Results ──
+  docDef.content.push({ text: 'Detailed Test Results', style: 'header', pageBreak: 'before' });
+
+  tests.forEach(function(t) {
+    var block = [
+      { text: t.id + '. ' + t.name, style: 'subheader', margin: [0, 15, 0, 5], unbreakable: true }
+    ];
+
+    var paramsTable = {
+      table: {
+        widths: ['*', '*'],
+        body: []
+      },
+      layout: 'noBorders',
+      margin: [0, 0, 0, 10]
+    };
+
+    var params = _getTestParamsForPdf(t.id, t.rawResult, window.reportData.params);
+    
+    // Group params into two columns
+    for (var i = 0; i < params.length; i += 2) {
+      var row = [];
+      row.push({ text: params[i][0] + ': ' + params[i][1], fontSize: 9 });
+      if (i + 1 < params.length) {
+        row.push({ text: params[i+1][0] + ': ' + params[i+1][1], fontSize: 9 });
+      } else {
+        row.push({ text: '' });
+      }
+      paramsTable.table.body.push(row);
+    }
+    
+    if (paramsTable.table.body.length > 0) {
+      block.push(paramsTable);
+    }
+
+    if (t.chartBase64) {
+      block.push({
+        image: t.chartBase64,
+        width: 300,
+        alignment: 'center',
+        margin: [0, 5, 0, 15]
+      });
+    }
+
+    docDef.content.push({
+      unbreakable: true,
+      stack: block
+    });
+  });
+
+  pdfMake.createPdf(docDef).download('NIST_Report_' + meta.filename + '.pdf');
+}
