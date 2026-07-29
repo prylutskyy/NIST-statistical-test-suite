@@ -1128,8 +1128,43 @@ svg.icon {
   height: 64px;
 }
 
+/* ── Back to Top FAB ────────────────────────────────────────────────────────── */
+.fab-top {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+  opacity: 0;
+  transform: translateY(20px) scale(0.9);
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.fab-top.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+.fab-top:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+.fab-top svg.icon { margin: 0; width: 24px; height: 24px; stroke: #fff; }
+
 /* ── Mobile Optimizations (Help & About) ────────────────────────────────────── */
 @media (max-width: 768px) {
+  .fab-top { bottom: 20px; right: 20px; width: 44px; height: 44px; }
+  
   /* Topbar responsive */
   .topbar { padding: 0 16px; gap: 8px; }
   .topbar-brand { font-size: 1.1rem; margin: 0; }

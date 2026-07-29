@@ -544,3 +544,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
   buildCarousel();
 });
+
+window.addEventListener('scroll', function() {
+  var fab = document.getElementById('backToTop');
+  if (fab) {
+    if (window.scrollY > 300) {
+      fab.classList.add('visible');
+    } else {
+      fab.classList.remove('visible');
+    }
+  }
+}, {passive: true});
