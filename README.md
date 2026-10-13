@@ -1,5 +1,7 @@
 # NIST Test Suite | SP 800-22 Statistical Tests
 
+https://prylutskyy.github.io/NIST-statistical-test-suite/
+
 A complete, client-side browser implementation of the **NIST SP 800-22 Rev 1a** statistical test suite for evaluating the randomness of binary sequences. All 15 tests run entirely in your browser — no server, no data upload, no external dependencies beyond Chart.js.
 
 ---
